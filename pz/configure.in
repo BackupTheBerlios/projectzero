@@ -1,0 +1,112 @@
+dnl AC_INIT(src/generator.C) < this can also take an argument to check if
+dnl we are in the right directory, TODO maybe do this later
+AC_INIT()
+AM_INIT_AUTOMAKE(projectzero,0.01)
+AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CC
+AC_PROG_CXX
+dnl AC_PROG_INSTALL, TODO do we need this?
+AC_PROG_LIBTOOL
+
+dnl #######################
+dnl  BEGIN Configure XSLT
+dnl #######################
+
+AC_ARG_WITH(xslt-config,
+  [ --with-xslt-config=PATH  use xslt-config in PATH to find libxslt ],
+  [if ! test -x "$with_xslt_config"
+   then
+     AC_MSG_ERROR([$with_xslt_config cannot be executed])
+   fi
+   XSLTCONFIG="$with_xslt_config"]
+)
+if test -z "$XSLTCONFIG"
+then
+  AC_CHECK_PROGS(XSLTCONFIG, [xslt-config])
+fi
+if test -n "$XSLTCONFIG"
+then
+  XSLT_LIBS="`$XSLTCONFIG --libs`"
+  XSLT_CFLAGS="`$XSLTCONFIG --cflags`"
+  save_LIBS="$LIBS"
+  save_CFLAGS="$CFLAGS"
+  LIBS="$LIBS $XSLT_LIBS"
+  CFLAGS="$CFLAGS $XSLT_CFLAGS"
+dnl Does not work in mingw
+dnl AC_CHECK_FUNC(xsltParseStylesheetFile,, [AC_MSG_ERROR([There was a problem linking with libxslt])])
+  LIBS="$save_LIBS"
+  CFLAGS="$save_CFLAGS"
+  save_LIBS=
+  save_CFLAGS=
+else
+  AC_MSG_ERROR([xslt-config could not be found])
+fi
+
+dnl ######################
+dnl  BEGIN Configure XML
+dnl ######################
+
+AC_ARG_WITH(xml-config,
+  [  --with-xml-config=PATH  use xml-config in PATH to find libxml ],
+  [if ! test -x "$with_xml_config"
+   then
+     AC_MSG_ERROR([$with_xml_config cannot be executed])
+   fi
+   XMLCONFIG="$with_xml_config"]
+)
+if test -z "$XMLCONFIG"
+then
+  AC_CHECK_PROGS(XMLCONFIG, [xml2-config xml-config])
+fi
+if test -n "$XMLCONFIG"
+then
+  XML_LIBS="`$XMLCONFIG --libs`"
+  XML_CFLAGS="`$XMLCONFIG --cflags`"
+  save_LIBS="$LIBS"
+  save_CFLAGS="$CFLAGS"
+  LIBS="$LIBS $XML_LIBS"
+  CFLAGS="$CFLAGS $XML_CFLAGS"
+dnl Does not work in mingw
+dnl AC_CHECK_FUNC(xmlParseFile,, [AC_MSG_ERROR([There was a problem linking with libxml])])
+  LIBS="$save_LIBS"
+  CFLAGS="$save_CFLAGS"
+  save_LIBS=
+  save_CFLAGS=
+else
+  AC_MSG_ERROR([xml-config could not be found])
+fi
+
+dnl ############################################################
+dnl  BEGIN Configure WXWINDOWS !!!!!!! Needs some work !!!!!!!!
+dnl ############################################################
+dnl we assume that if wx-config is found, wxWindows is installed :)
+
+AC_PATH_PROG(WX_CONFIG, wx-config, no)
+if [[ "$WX_CONFIG" = "no" ]] ; then
+        AC_MSG_ERROR("Could not find wx-config: is wxWindows installed? is wx-config in your path?")
+fi
+WX_LIBS="$LIBS `$WX_CONFIG --libs`"
+WX_CFLAGS="$CFLAGS `$WX_CONFIG --cflags`"
+
+dnl #####################
+dnl  END Configurations
+dnl #####################
+
+AC_SUBST(XSLT_CFLAGS)
+AC_SUBST(XML_CFLAGS)
+AC_SUBST(XSLT_LIBS)
+AC_SUBST(XML_LIBS)
+AC_SUBST(WX_LIBS)
+AC_SUBST(WX_CFLAGS)
+
+AC_OUTPUT([
+Makefile
+src/Makefile
+src/processor/Makefile
+src/testapp/Makefile
+src/gui/Makefile
+phpscripts/Makefile
+examples/Makefile
+img/Makefile
+])

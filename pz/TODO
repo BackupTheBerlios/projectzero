@@ -1,0 +1,23 @@
+Automake/Autoconf todo:
+------------------------
+
+- find/write decent code for wxwindows in configure.in (flakarchiver?)
+- nicely separate generator en wxwindows program, they now have common libs 
+  and cflags
+- make install doesn't work yet
+- ...
+
+Project Structure todo:
+------------------------
+
+- wxwindows resource files system. .rc files do not work in linux. .xpm need to be included directly. use both bmp and xpm?
+- fix includes
+
+Programming todo's:
+--------------------
+
+- how to convert xmlChar to wxString (with support for utf8/unicode stuff)?
+- wxString: use (const char*) or (const wchar_t*)? seems to depend on platform
+  wich compile options were used
+- filename checking/format
+

@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!-- 	
+	FF paar ideekes aan de hand van deze file laten zien.
+	Dit zou een mogelijke xml-inputfile die de compiler leest kunnen zijn.
+	Dit is natuurlijk slechts een file om mijn ideekes een beetje duidelijk te maken,
+	de namen enzo zijn enkel voor de duidelijkheid en zijn niet echt goed gekozen.
+	
+-->
+<!-- 1 pagina bevat geen <xhtml> of <head> of weet ik veel wat voor tags, omwille van de
+     reden dat je ze dan niet in elkaar kan includen. -->
+<page name="index" id="052" bgcolor="#545204"> 
+	<!-- deze zijn geen gewone html-<xtable> elementen, omdat bij het gebruiken van echte elementen 
+	     het zeer moeilijk zal zijn om deze met de editor op een de degelijke (eenvoudige) manier
+	     te bewerken. zuiver xhtml-code zou ik liefst niet in zo'n input-xml file zien, tenzij 
+	     deze binnen speciale tags staat ofzo -->
+	<xtable width="100%" height="100%">
+	<xtr>
+	<xtd width="50px" height="30px">
+	    <xp>foobar</xp>
+		<!-- dit is een ingevoegd php-script, dat enkel als gewone xhtml-code zal verschijnen
+		     in de output -->
+		<php name="image" static="yes">
+		    <arguments>
+			<argument name="src" value="logo.jpg" />
+			<argument name="link" value="page:052" />
+		    </arguments>
+		</php>
+	</xtd>
+	<xtd width="100%" height="30px">
+		<!-- de inhoud van de script-specifieke opties is binnen de tags geplaatst. dit geeft de
+		     mogelijkheid meer geavanceerde opties zoals een lijst met menu-items te verkrijgen
+		     dit zijn mss wel eerder gegevens om in een tabel te stopppen, maar moeten die dan
+		     op een eenvoudige en duidijke wijze door de gebruiker aangepast worden? -->
+		<php name="simplemenu" static="yes">
+		    <arguments>
+			<argument name="direction" value="horizontal" />
+		    </arguments>
+		    <xinput>
+			<menuitems>
+				<item name="Home" url="page:052" />
+				<item name="Docs" url="page:052?content=Docs" />
+				<item name="Contact" url="page:052?content=Contact" />
+			</menuitems>
+		    </xinput>
+		</php>
+	</xtd>
+	</xtr>
+	<xtr>
+	<xtd width="50px">
+		<!-- dit zou een voorbeeld kunnen zijn van een geavanceerd script, dat de meer ervaren webdesigener
+		     meer vrijheid geeft -->
+		<php name="advancedmenu" static="yes">
+		    <xinput>  <!-- dit zorgt dat alle inhoud rechtstreeks aan het phpscript gepasseerd wordt als 1 blok -->
+			<markup>
+				- <a href="@url@" target="_blank">@name@</a><br />
+			</markup>
+			<menuitems>
+				<item name="Home" url="page:052" />
+				<item name="Docs" url="page:052?content=Docs" />
+				<item name="Contact" url="page:052?content=Contact" />
+			</menuitems>
+		    </xinput>
+		</php>
+	</xtd>
+	<xtd>
+		<!-- dit script toont de rol van de http-vars in een pcms/en geëmuleerde http-vars in static xhtml
+		     de menu's sturen de bezoeker door naar een andere page met enkele http-vars, in dit geval
+		     de http-var 'content'. deze var wordt dan geïnterpreteerd door dit php-script, dat aan de hand
+		     van die variabele als een soort van <iframe> fungeert, door een bijhorende page te includen.
+		-->
+		<php name="eenincludefile" static="no"> <!-- waarom static no ? dit is toch geemuleerd zodat statische uitvoer gegenereerd wordt -->
+		
+			<decidingargument value="content" /> <!-- dunno wa dit betekent -->
+			<arguments>
+				<argument name="" page="pagename:news" />
+				<argument name="Docs" page="pageid:045" />
+				<argument name="Contact" page="pageid:095" />
+			</arguments>
+		</php>
+	</xtd>
+	<xtd>
+	    <group>
+		<groupelem>
+		    <blaat> weer een blaat </blaat>
+		</groupelem>
+		<groupelem>
+		    <blaat> weer een blaat, nog es </blaat>
+		</groupelem>
+	    </group>
+	</xtd>
+	</xtr>
+	</xtable>
+</page>

@@ -1,0 +1,53 @@
+Builden:
+---------
+
+- linux:
+  Vooraleer je kan builden, moet je zorgen dat zowel wxWindows 2.4 als
+  libxml 2 en libxslt aanwezig zijn op je systeem.
+	./configure
+	make
+	make install (nog niet getest!)
+
+- windows:
+  Om te compilen heb je het volgende nodig: mingw (zit ook bij Dev-C++),
+  wxwindows, binaries van libxml en libxslt.
+	make -f Makefile.win
+
+Enkele instructies voor het gebruik van dit am/ac project:
+-----------------------------------------------------------
+
+- handige truc: "make dist" maakt een tarball aan, met alle files die bij het
+  project horen, en dus expliciet in de Makefile.am's staan.
+
+- nieuwe file aan project toevoegen:
+	- source (.h of .cpp) file: in de Makefile.am van die map, dit bestand
+	  toevoegen in de lijst van bestanden na Programma_SOURCES
+        - andere file: in de juiste Makefile.am achter EXTRA_DIST = toevoegen
+
+- nieuwe map toevoegen:
+	- map maken
+	- Makefile.am in die map maken
+	- Makefile vanonder in configure.in toevoegen
+
+- na verandering aan Makefile.am's of configure.in's, dit even uitvoeren in de 
+  root dir van het project:
+	- aclocal
+	- autoconf
+	- automake
+	- ./configure
+	- make
+
+Compabiliteit
+-------------
+
+- Om litteral strings of string van type char* door te geven als een wxString,
+  macro wxT(x) gebruiken, voor unicode compabiliteit
+	(vben.) char *cstring = "iets";
+	        wxString wxstring = wxT(cstring);
+		wxstring.Append(wxT(cstring));
+
+- Om litteral strings door te geven die vertaald kunnen worden de macro _(x)
+  gebruiken. (vb.) wxString titel = _("Title");
+
+- wat doen we met xpm's/icons? mss toch best enkel xpm's gebruiken, anders
+  moeten we resource files gebruiken voor windows.

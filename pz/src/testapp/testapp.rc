@@ -1,0 +1,4 @@
+testicon	ICON	../img/ogl.ico
+toolb1		BITMAP	../img/width.bmp
+
+#include <wx/msw/wx.rc>

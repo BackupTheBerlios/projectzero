@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<project>
+	<name>Testprojectje</name>
+	<description>Een testproject</description>
+
+	<page uri="./page1.xml" />
+</project>

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<page>
+	<name>My first page</page>
+	<description>Blaat</description>
+	
+	<layout uri="./layoutfile.xml">
+	<template uri="./template.xsl">
+	<blocks>
+		<block id="1">
+			<group>
+				<groupelem>
+					<plugin name="image">
+						<!-- fill'd by plugin -->
+					</plugin>
+				</groupelem>
+				<groupelem>
+					<plugin name="image">
+						<!-- fill'd by plugin -->
+					</plugin>
+				</groupelem>
+			</group>
+		</block>
+		<block id="2">
+			<page uri="./page2.xml" />
+		</block>
+	</blocks>
+</page>

@@ -1,0 +1,2 @@
+SUBDIRS = processor gui testapp
+
