@@ -8,6 +8,10 @@
 #include "intern.h"
 #include "projectfile.h"
 
+#define WX2XML(wxstr) (const xmlChar*)((const char*)wxstr.mb_str(wxConvUTF8))
+#define WX2XML2(wxstr) (const xmlChar*)((const char*)wxstr->mb_str(wxConvUTF8))
+#define XML2WX(xmlc) wxString((const char*)xmlc, wxConvUTF8)
+
 Project::Project() {}
 Project::~Project() {
 	pages.DeleteContents(TRUE);
@@ -55,19 +59,28 @@ int Project::LoadXmlProjectFile(wxFileName& filename) {
 }
 
 int Project::SaveXmlProjectFile() {
-	// XXX This functions is not yet written, it will only print
-	// an example projectfile, cause there's a conversion problem.
 	xmlDocPtr doc;
 	xmlNodePtr cur, childcur; 
 	doc = xmlNewDoc((const xmlChar*) "1.0");
 	cur = xmlNewNode(NULL, (const xmlChar*) "project");
 	xmlDocSetRootElement(doc, cur);
-	//xmlNewTextChild(cur, NULL, (const xmlChar*)"name", (const xmlChar*)projname.wc_str(wxConvUTF8));
-	//xmlNewTextChild(cur, NULL, (const xmlChar*)"description", (const xmlChar*)projdescription.wc_str(wxConvUTF8));
-	xmlNewTextChild(cur, NULL, (const xmlChar*)"name", (const xmlChar*)"Een fijne naam");
-	xmlNewTextChild(cur, NULL, (const xmlChar*)"description", (const xmlChar*)"Een fijne omschrijving.");
-	childcur =  xmlNewTextChild(cur, NULL, (const xmlChar*)"page", NULL);
-	xmlNewProp(childcur, (const xmlChar*)"uri", (const xmlChar*)"./page1.xml");
+	xmlNewTextChild(cur, NULL, (const xmlChar*)"name", WX2XML(projname));
+	xmlNewTextChild(cur, NULL, (const xmlChar*)"description", WX2XML(projdescription));
+	for(size_t i=0; i < this->GetPageCount(); i++) {
+		childcur = xmlNewTextChild(cur, NULL, (const xmlChar*)"page", NULL);
+		wxFileName *temp = GetPage(i)->GetFileName();
+		if (temp->IsAbsolute()) {
+			xmlNewProp(childcur, (const xmlChar*)"uri", WX2XML(temp->GetFullPath()));
+		} else {
+			// make the path relative
+			wxFileName temp2 = wxFileName(*temp);
+			for(size_t j=0; j < projfile.GetDirCount();j++) {
+				temp2.RemoveDir(0);
+			}
+			xmlNewProp(childcur, (const xmlChar*)"uri", WX2XML(temp2.GetFullPath()));
+		}
+		xmlNewProp(childcur, (const xmlChar*)"name", WX2XML2(this->GetPage(i)->GetName()));
+	}
 	std::cout << "saving to file: " << (const char*)projfile.GetFullPath().mb_str() << std::endl;
 	xmlSaveFormatFile((const char*)projfile.GetFullPath().mb_str(),doc,1);
 	xmlFreeDoc(doc);
@@ -79,7 +92,7 @@ void Project::ParsePage(xmlNodePtr cur)
 {
 	xmlChar *prop;
 	if ((prop = xmlGetProp(cur, (const xmlChar*)"uri")) != NULL) {
-		wxString temp((const char*)prop, wxConvUTF8);
+		wxFileName temp(wxString((const char*)prop, wxConvUTF8));
 		wxString temp2; 
 		xmlFree(prop);
 		if((prop = xmlGetProp(cur, (const xmlChar*)"name")) != NULL) {
@@ -100,10 +113,8 @@ void Project::SetDescription(wxString& description) {
 	projdescription = description;
 }
 
-int Project::AddPage(wxString& filename, wxString& name) {
-	wxFileName fullpath(filename);
-	if(fullpath.IsRelative()) { fullpath.PrependDir(projfile.GetPath()); } 
-	pages.Append(new Page(fullpath, name));
+int Project::AddPage(wxFileName& filename, wxString& name) {
+	pages.Append(new Page(filename, name));
 }
 
 size_t Project::GetPageCount() {
@@ -112,5 +123,9 @@ size_t Project::GetPageCount() {
 
 Page *Project::GetPage(size_t position) {
 	return pages.Item(position)->GetData();
+}
+
+wxString Project::GetProjPath() {
+	return projfile.GetPath();
 }
 

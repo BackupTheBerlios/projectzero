@@ -21,6 +21,7 @@ public:
 	void SetDescription(wxString& mydescription);
 	wxString *GetName();
 	wxString *GetDescription();
+	wxFileName *GetFileName();
 private:
 	int ProcessBlocks(xmlDocPtr doc, xmlNodePtr cur);
 	int ProcessTemplate(xmlDocPtr doc, xmlNodePtr cur);

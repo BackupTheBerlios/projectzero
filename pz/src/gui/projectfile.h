@@ -15,9 +15,10 @@ public:
 	int SaveXmlProjectFile();
 	void SetName(wxString& name);
 	void SetDescription(wxString& filename);
-	int AddPage(wxString& filename, wxString& name);
+	int AddPage(wxFileName& filename, wxString& name);
 	size_t GetPageCount();
 	Page *GetPage(size_t position);
+	wxString GetProjPath();
 private:
 	void ParsePage(xmlNodePtr cur);
 	PageList pages;

@@ -17,6 +17,7 @@
 #include "globals.h"
 #include "block.h"
 #include "intern.h"
+#include "app.h"
 WX_DEFINE_LIST(PageList);
 
 Page::Page(wxFileName& myfilename, wxString& myname)
@@ -31,10 +32,14 @@ int Page::LoadXmlPageFile()
 {
   xmlNodePtr cur;
   xmlChar * value;
-  doc = xmlParseFile((const char*)file.GetFullPath().mb_str());
+  wxFileName fullpath(file.GetFullPath());
+  if(file.IsRelative()) {
+	  fullpath.PrependDir(ws::curproj->GetProjPath());
+  }
+  doc = xmlParseFile((const char*)fullpath.GetFullPath().mb_str());
   if(doc == NULL)
     {
-      std::cout << "Error parsing file " << (const char *)file.GetFullPath().mb_str() << std::endl;
+      std::cout << "Error parsing file " << (const char *)fullpath.GetFullPath().mb_str() << std::endl;
       return 0;
     }
   cur = xmlDocGetRootElement(doc);
@@ -208,4 +213,5 @@ void Page::SetDescription(wxString& mydescription) {
 }
 wxString *Page::GetName() { return &name; }
 wxString *Page::GetDescription() { return &description; }
+wxFileName *Page::GetFileName() { return &file; }
 
