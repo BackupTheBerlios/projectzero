@@ -5,7 +5,7 @@ projectzero_SOURCES = \
 	draw.cpp draw.h \
 	render.cpp render.h \
 	projectfile.cpp projectfile.h \
-	intern.cpp intern.h globals.h |
+	intern.cpp intern.h globals.h \
 	page.cpp page.h pageviewer.cpp pageviewer.h
 
 LIBS = @XSLT_LIBS@ @XML_LIBS@ @WX_LIBS@
