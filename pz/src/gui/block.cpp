@@ -11,9 +11,10 @@
 WX_DEFINE_LIST(MyList);
 
 int Block::Load(xmlNodePtr myblock){
-  xmlChar * prop;
+  xmlChar * prop; xmlChar * prop2;
   wxString filename;
-  xmlNodeptr cur;
+  xmlNodePtr cur;
+  xmlDocPtr blockdoc;
   prop = xmlGetProp(cur, "name");
   
   if(prop){
@@ -26,11 +27,19 @@ int Block::Load(xmlNodePtr myblock){
        errdiag->ShowModal;
    }
    uri = filename; 
+   blockdoc = xmlParseFile((xmlChar *) mg_str(uri));
    
+   cur = xmlDocGetRootElement(blockdoc);
+   /* process block info file here */
+   
+   
+   
+   /* process block data from page file here */
    for(cur = myblock->xmlChildrenNode; cur; cur = cur->next){
-    
-   
-   
+    prop = xmlGetProp(cur, "name");
+    prop2 = xmlGetProp(cur, "value");
+    if(!xmlStrcmp(cur->name, (xmlChar *) "data") && prop && prop2)
+      vars.Append(Argument(wxString((char *) prop, wxConvUTF8), wxString((char *) prop2, wxConvUTF8)));
    }
           
   } else {
@@ -43,4 +52,9 @@ int Block::Load(xmlNodePtr myblock){
      errdiag->ShowModal;
     return 0;
   }
+}
+
+Argument::Argument(wxString namein, wxString valin){
+  name = namein;
+  value = valin;
 }

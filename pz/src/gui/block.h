@@ -20,8 +20,8 @@ class Block {
 
 class Argument {
   public:
-    DataSet(){};
-    ~DataSet(){};
+    Argument(){};
+    ~Argument(){};
     wxString name;
     wxString value;
 };
@@ -34,5 +34,6 @@ class DataInput {
 };
 
 wxDECLARE_LIST(Argument, VariableList);
+wxDECLARE_LIST(Block, BlockList);
 wxDEFINE_LIST(Argument, VariableList);
 #endif /* DEF_BLOCK_H */
