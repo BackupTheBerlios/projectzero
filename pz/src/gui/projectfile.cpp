@@ -13,7 +13,7 @@ Project::~Project() {
 	pages.Clear();
 }
 
-int Project::LoadXmlProjectFile(wxString& filename) {
+int Project::LoadXmlProjectFile(wxString& filename, wxString& path) {
 	xmlNodePtr cur;
 	xmlChar * value;
 	doc = xmlParseFile((const char*)filename.mb_str());
@@ -21,6 +21,7 @@ int Project::LoadXmlProjectFile(wxString& filename) {
 		std::cout << "Error parsing file " << (const char *)filename.mb_str() << std::endl;
 		return 0;
 	}
+	projpath = path;
 	cur = xmlDocGetRootElement(doc);
 	if(xmlStrcmp(cur->name, (const xmlChar *)"project") != 0) { 
 		xmlFreeDoc(doc);
@@ -81,8 +82,9 @@ void Project::SetDescription(wxString& description) {
 
 int Project::AddPage(wxString& filename) {
 	Page *page = new Page();
+	wxString fullpath = projpath + file;
 	// XXX too buggy at the moment
-	/*if(*/page->LoadXmlPageFile(filename);/*)*/
+	/*if(*/page->LoadXmlPageFile(fullpath);/*)*/
 	/*{*/ pages.Append(page);/* }*/
 	//else { delete page; }
 }
