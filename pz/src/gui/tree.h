@@ -8,7 +8,8 @@
 
 enum {
 	ICON_PAGE,
-	ICON_PROJECT
+	ICON_PROJECT,
+	ICON_OPEN
 };
 
 class ProjectTreeCtrl : public wxTreeCtrl {
@@ -27,10 +28,10 @@ enum {
 };
 
 class TreeBinding : public wxTreeItemData {
-  public:
-  TreeBinding::TreeBinding(int, void *);
-  int type;
-  void * data;
+	public:
+	TreeBinding::TreeBinding(int, void *);
+	int type;
+	void * data;
 };
 
 #endif //DEF_TREE_H

@@ -16,11 +16,12 @@
 
 enum
 {
+// menu id's
 	ID_QUIT,
 	ID_ABOUT,
 	ID_OPENPROJECT,
 	ID_CLOSEPROJECT,
-	ID_EXAMPLE
+	ID_EXAMPLE,
 };
 
 class MainFrame : public wxFrame {
@@ -28,8 +29,8 @@ public:
 	MainFrame(wxFrame *frame, wxString title, const wxPoint& pos, const wxSize& size);
 	~MainFrame(void);
 	void ReplaceRight(wxWindow * newwin);
-	wxSplitterWindow * splitter;
- 	wxWindow * rightwin;
+	void ChangeCurrentPageName(wxString& newname);
+	wxSplitterWindow *splitter;
 private:
 	void OnQuit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
@@ -42,9 +43,9 @@ private:
 	void UnLoadProject();
 
 	wxSplitterWindow  *leftsplitter;
-	PageViewer *dw;
 	wxStaticText *description;
 	ProjectTreeCtrl *projecttree;
+ 	wxWindow *rightwin;
 
 DECLARE_EVENT_TABLE()
 };

@@ -33,6 +33,7 @@ int Project::LoadXmlProjectFile(wxString& filename, wxString& path) {
 		if(!xmlStrcmp(cur->name, (const xmlChar *)"name")) {
 			value = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
 			wxString temp((const char*)value, wxConvUTF8);
+			temp.Trim(FALSE);temp.Trim(TRUE);temp.Truncate(100);
 			SetName(temp);
 			std::cout << "Added name ..." << std::endl;
 			xmlFree(value);
@@ -40,6 +41,7 @@ int Project::LoadXmlProjectFile(wxString& filename, wxString& path) {
 		else if(!xmlStrcmp(cur->name, (const xmlChar *)"description")) {
 			value = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
 			wxString temp((const char*)value, wxConvUTF8);
+			temp.Trim(FALSE);temp.Trim(TRUE);temp.Truncate(1024);
 			SetDescription(temp);
 			std::cout << "Added description ..." << std::endl;
 			xmlFree(value);
@@ -84,10 +86,9 @@ void Project::SetDescription(wxString& description) {
 int Project::AddPage(wxString& filename) {
 	Page *page = new Page();
 	wxString fullpath = projpath + filename;
-	// XXX too buggy at the moment
-	/*if(*/page->LoadXmlPageFile(fullpath);/*)*/
-	/*{*/ pages.Append(page);/* }*/
-	//else { delete page; }
+	if(page->LoadXmlPageFile(fullpath))
+	{ pages.Append(page);}
+	else { delete page; }
 }
 
 size_t Project::GetPageCount() {

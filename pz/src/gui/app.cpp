@@ -29,12 +29,10 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 END_EVENT_TABLE()
 
 IMPLEMENT_APP(MainApp)
-MainFrame *mainwin;  // global variable that holds pointer to mainframe
-
 
 bool MainApp::OnInit() {
-	// to remember that this should be calles once at program startup.
-	//xmlInitParser();
+	// Init Xml Parser, because we have a multithreaded program
+	xmlInitParser();
 	ws::mainwin = new MainFrame((wxFrame*)NULL, _("Project Zero"), wxPoint(1,1), wxSize(750, 600));
 	ws::mainwin->Show(TRUE);
 	SetTopWindow(frame);
@@ -69,22 +67,18 @@ void MainFrame::CreateSplitters() {
 
 	leftsplitter = new wxSplitterWindow(splitter, -1, wxDefaultPosition, wxDefaultSize, /*wxSP_LIVE_UPDATE |*/ wxCLIP_CHILDREN | wxSP_3DSASH);
 	projecttree = new ProjectTreeCtrl(leftsplitter);
-	description = new wxStaticText(leftsplitter, -1,_("Put some text here.\nBla Bla Bla."));
+	description = new wxStaticText(leftsplitter, -1,_("ProjectZero / Webstruct v0.00\n2003"));
 	leftsplitter->SplitHorizontally(projecttree, description, 400);
 	leftsplitter->SetMinimumPaneSize(50);
-/*	dw = new DrawWindow(splitter);
-	dw->Redraw();*/
-	dw = new PageViewer(splitter, new Page());
-	dw->Refresh();
-	(ws::mainwin)->rightwin = dw;
-  
-	splitter->SplitVertically(leftsplitter, dw, 200);
+	rightwin = new wxWindow(splitter, -1);
+	rightwin->SetBackgroundColour(wxColour(165, 165, 165));
+	splitter->SplitVertically(leftsplitter, rightwin, 200);
 	splitter->SetMinimumPaneSize(50);
 
 }
 
 MainFrame::~MainFrame(void) {
-	delete ws::curproj;
+	if(ws::curproj!=NULL) delete ws::curproj;
 }
 
 void MainFrame::ReplaceRight(wxWindow * newwin){
@@ -105,9 +99,13 @@ void MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 void MainFrame::LoadProject(wxString& filename, wxString& path) {
 	UnLoadProject();
 	ws::curproj = new Project();
-	ws::curproj->LoadXmlProjectFile(filename, path);
-	if(splitter==NULL) CreateSplitters();
-	projecttree->ReFill();
+	if(ws::curproj->LoadXmlProjectFile(filename, path)) {
+		if(splitter==NULL) CreateSplitters();
+		projecttree->ReFill();
+		this->Refresh();
+	} else {
+		UnLoadProject();
+	}
 }
 
 void MainFrame::UnLoadProject() {
@@ -115,6 +113,13 @@ void MainFrame::UnLoadProject() {
 	// this solution will work, but isn't really how it should be, i think*
 	if(!(splitter==NULL)) { delete splitter; splitter = NULL; }
 	if(!(ws::curproj==NULL)) { delete ws::curproj; ws::curproj = NULL; }
+}
+
+// XXX this is not the way it is supposed to be; we will probably need to rethink
+// how to change the controls after data in a page or project object has changed
+// maybe we need to give them an id, or use wxTreeItemData, ...
+void MainFrame::ChangeCurrentPageName(wxString& newname) {
+	projecttree->SetItemText(projecttree->GetSelection(),newname);
 }
 
 void MainFrame::OnCloseProject(wxCommandEvent& WXUNUSED(event)) {

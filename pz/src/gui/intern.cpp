@@ -18,21 +18,16 @@
 #include "block.h"
 #include "intern.h"
 WX_DEFINE_LIST(PageList);
-WX_DEFINE_LIST(StyleSheetList);
-
 
 Page::Page()
 {
   name = _("No Name");
 };
 
-Page::~Page()
-{}
-;
+Page::~Page() {};
 
 int Page::LoadXmlPageFile(wxString& filename)
 {
-
   xmlNodePtr cur;
   xmlChar * value;
   doc = xmlParseFile((const char*)filename.mb_str());
@@ -54,6 +49,7 @@ int Page::LoadXmlPageFile(wxString& filename)
         {
           value = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
           wxString temp((const char*)value, wxConvUTF8);
+	  temp.Trim(FALSE);temp.Trim(TRUE);temp.Truncate(100);
           SetName(temp);
           std::cout << "Added name ..." << std::endl;
           xmlFree(value);
@@ -62,7 +58,8 @@ int Page::LoadXmlPageFile(wxString& filename)
         {
           value = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
           wxString temp((const char*)value, wxConvUTF8);
-          //SetDescription(temp);
+	  temp.Trim(FALSE);temp.Trim(TRUE);temp.Truncate(1024);
+          SetDescription(temp);
           std::cout << "Added description ..." << std::endl;
           xmlFree(value);
         }
@@ -191,13 +188,8 @@ int Page::LoadTemplate(xmlChar * filename)
   return true;
 }
 
-void Page::SetName(wxString& myname)
-{
-  name = myname;
-};
-
-wxString Page::GetName()
-{
-  return name;
-}
+void Page::SetName(wxString& myname) { name = myname; };
+void Page::SetDescription(wxString& mydescription) { description = mydescription; };
+wxString *Page::GetName() { return &name; }
+wxString *Page::GetDescription() { return &description; }
 

@@ -8,21 +8,19 @@
 
 
 class PageViewer : public wxNotebook {
-  public:
-    PageViewer(wxWindow * parent, Page * apage);
-    ~PageViewer();
-    void PageViewer::NameChange(wxEvent& event);
-    void PageViewer::DescChange(wxEvent& event);
-    DECLARE_EVENT_TABLE()
-  private:
-    DrawData * dd;
-    wxPanel * prop;
-    wxPanel * layout;
-    wxPanel * templates;
-    DrawWindow * dw;
-    Page * mypage;
-    
-
+public:
+	PageViewer(wxWindow * parent, Page * apage);
+	~PageViewer();
+	void PageViewer::NameChange(wxCommandEvent& event);
+	void PageViewer::DescChange(wxCommandEvent& event);
+private:
+	DrawData * dd;
+	wxPanel * prop;
+	wxPanel * layout;
+	wxPanel * templates;
+	DrawWindow * dw;
+	Page * mypage;
+DECLARE_EVENT_TABLE()
 };
 
 #endif
