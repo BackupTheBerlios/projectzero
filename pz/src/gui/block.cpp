@@ -25,7 +25,7 @@ int Block::Load(xmlNodePtr myblock){
    filename.Append(wxString((const char*)prop, wxConvUTF8));
    if(access(filename.mb_str(), R_OK) < 0){
       // file can't be accessed
-       wxDialog errdiag(NULL, -1, wxT("Couldn\'t load module"));
+       wxDialog errdiag(NULL, -1, wxString("Couldn\'t load module"));
        errdiag.ShowModal();
    }
    uri = filename; 
@@ -52,7 +52,7 @@ int Block::Load(xmlNodePtr myblock){
     /* we should consider better error handling, 
      allowing the user to point where we can find this block, 
      or even where we can download it */
-     wxDialog errdiag(NULL, -1, wxT("Couldn\'t load module"));
+     wxDialog errdiag(NULL, -1, wxString("Couldn\'t load module"));
      errdiag.ShowModal();
     return 0;
   }

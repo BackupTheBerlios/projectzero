@@ -6,6 +6,7 @@
 #include "../../img/mondrian.xpm"
 
 #include "globals.h"
+#include "block.h"
 #include "intern.h"
 #include "projectfile.h"
 #include "draw.h"
@@ -93,7 +94,7 @@ void MainFrame::OnTest(wxCommandEvent& WXUNUSED(event)) {
 	{
 		wxString filename = dialog.GetPath();
 		wxString dir = dialog.GetDirectory();
-		proj.LoadXmlProjectFile(filename, dir);
+	  proj.LoadXmlProjectFile(filename, dir);
 		projecttree->Fill(proj);
 	}
 }
@@ -105,4 +106,5 @@ void MainFrame::OnExample(wxCommandEvent& WXUNUSED(event)) {
 	proj.LoadXmlProjectFile(filename, dir);
 	projecttree->Fill(proj);
 }
+
 

@@ -1,121 +1,62 @@
 /*
-
  * Project Zero - All Rights Reserved
-
  * intern.h
-
  */
 
-
-
 #ifndef DEF_INTERN_H
-
 #define DEF_INTERN_H
-
 // style
-
 class StyleSheet
-
 {
-
 public:
-
 	StyleSheet(){};
-
 	~StyleSheet(){};
-
 private:
-
 	wxString file;
-
 	unsigned long id;
-
 	// add real content here
-
 	// ...
-
 };
-
 WX_DECLARE_LIST(StyleSheet, StyleSheetList);
 
-
-
 // elements
-
 class PageElement
-
 {
-
 public:
-
 	PageElement(){};
-
 	virtual ~PageElement(){};
-
 protected:
-
 	wxString name;
-
 	unsigned long id;
-
 	// ...
-
 };
-
 WX_DECLARE_LIST(PageElement, PageElementList);
 
-
-
 class SubPagesElement : public PageElement
-
 {
-
 public:
-
 	SubPagesElement(){};
-
 	~SubPagesElement(){};
-
 private:
-
 	// list of pageid's
-
 	// ...
-
 };
-
-
 
 class PhpElement : public PageElement
-
 {
-
 public:
-
 	PhpElement(){};
-
 	~PhpElement(){};
-
 private:
-
 	wxString type;
-
 	//PhpElementOptions options;
-
 	// ...
-
 };
 
-
-
 // page
-
 class Page
-
 {
-
 public:
-
 	Page();
   ~Page();
 	int LoadXmlPageFile(wxString& filename);
@@ -138,6 +79,7 @@ private:
 	xmlDocPtr doc;
 	xmlDocPtr templates;
 	wxString templatefile;
+	BlockList blocks;
 	// page layout (tables)
 
 	// ...

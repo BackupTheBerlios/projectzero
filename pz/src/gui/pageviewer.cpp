@@ -4,6 +4,7 @@
  */
  
 #include "globals.h"
+#include "block.h"
 #include "intern.h"
 #include "projectfile.h"
 #include "draw.h"

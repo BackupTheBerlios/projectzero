@@ -15,11 +15,12 @@
  */
 
 #include "globals.h"
+#include "block.h"
 #include "intern.h"
-#include <wx/listimpl.cpp>
 WX_DEFINE_LIST(PageList);
 WX_DEFINE_LIST(StyleSheetList);
 WX_DEFINE_LIST(PageElementList);
+
 
 Page::Page()
 {
@@ -105,14 +106,22 @@ int Page::ProcessBlocks(xmlDocPtr doc, xmlNodePtr cur)
 {
   /*
    * what should happen here:
-   * create a "Plugin" object for every <plugin> element we encounter
+   * create a "Block" object for every <plugin> element we encounter
    * same for groups
    * add them to the list of plugins, groups etc of this Page object
    * 
    * 
    */
-
-
+  cur = cur->xmlChildrenNode;
+  while(cur != NULL){
+    if(!xmlStrcmp(cur->name, (xmlChar *) "plugin")){
+      Block * t;
+      t = new Block();
+      t->Load(cur);
+      blocks.Append(t); // t doesn't get copied, pointer just gets attached, that's why we can't use vars on stack
+    }
+    cur = cur->next;
+  }
   return 1;
 }
 
