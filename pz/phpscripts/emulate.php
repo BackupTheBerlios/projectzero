@@ -22,14 +22,7 @@ function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
 	$user_errors = array(E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE);
     
 	echo "<error num=\"$errno\" type=\"$errortype\" errmsg=\"$errmsg\" "
-	     . "file=\"$filename\" line=\"$linenum\">";
-
-	// XXX what is this? :)
-	/*if (in_array($errno, $user_errors))
-        $err .= "\t<vartrace>".wddx_serialize_value($vars,"Variables")
-		. "</vartrace>\n";*/
-
-	// exit(); ?
+	     . "file=\"$filename\" line=\"$linenum\"/>\n";
 }
 
 $my_error_handler = set_error_handler("userErrorHandler");
@@ -39,34 +32,18 @@ $myargs = $_SERVER['argv'];
 if (count($myargs) < 3)
 {
 	echo "<error errmsg=\"Not enough arguments given to emulate.php.\" "
-	   . "type=\"EmulateError\">";
+	   . "type=\"EmulateError\"/>\n";
 	exit();
 }
 
 include($myargs[2]);
-$uneven = (count($myargs)-3) % 2;
-if ($uneven)
-{
-	echo "<error errmsg=\"Arguments for scripts should come two by "
-	   . "two.\" type=\"EmulateError\">";
-	exit();
-}
-$options = array();
-for($i=3;$i<count($myargs);$i+=2)
-{
-	$options[$myargs[$i]] = $myargs[$i+1];
-}
+
+// TODO parse options from /tmp/file here, and give them to the script
+
 switch($myargs[1])
 {
 	case "GetOutput":
-		GetOutput($options);
-		break;
-	case "GetPreview":
-		GetPreview($options);
-		break;
-	case "GetOptions":
-		$newoptions = GetOptions();
-		// print out the options ...
+		GetOutput();
 		break;
 }
 
