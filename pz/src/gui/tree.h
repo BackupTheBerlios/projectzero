@@ -6,7 +6,7 @@
 #ifndef DEF_TREE_H
 #define DEF_TREE_H
 
-enum TreeIcons {
+enum {
 	ICON_PAGE,
 	ICON_PROJECT
 };
@@ -14,16 +14,17 @@ enum TreeIcons {
 class ProjectTreeCtrl : public wxTreeCtrl {
 public:
 	ProjectTreeCtrl(wxWindow *parent);
-	//void TestFill();
-	void Fill(Project& project);
-  DECLARE_EVENT_TABLE()
+	void ReFill();
 private:
-  void SelChanged(wxTreeEvent&);
+	void SelChanged(wxTreeEvent&);
 	void CreateImageList(void);
+DECLARE_EVENT_TABLE()
 };
 
-#define PAGE 0x0
-#define PROJECT 0x1
+enum {
+	PAGE,
+	PROJECT
+};
 
 class TreeBinding : public wxTreeItemData {
   public:

@@ -18,7 +18,8 @@ enum
 {
 	ID_QUIT,
 	ID_ABOUT,
-	ID_TEST,
+	ID_OPENPROJECT,
+	ID_CLOSEPROJECT,
 	ID_EXAMPLE
 };
 
@@ -26,20 +27,26 @@ class MainFrame : public wxFrame {
 public:
 	MainFrame(wxFrame *frame, wxString title, const wxPoint& pos, const wxSize& size);
 	~MainFrame(void);
-	void OnQuit(wxCommandEvent& event);
-	void OnAbout(wxCommandEvent& event);
-	void OnTest(wxCommandEvent& event);
-	void OnExample(wxCommandEvent& event);
 	void ReplaceRight(wxWindow * newwin);
 	wxSplitterWindow * splitter;
  	wxWindow * rightwin;
- 	DECLARE_EVENT_TABLE()
 private:
+	void OnQuit(wxCommandEvent& event);
+	void OnAbout(wxCommandEvent& event);
+	void OnOpenProject(wxCommandEvent& event);
+	void OnCloseProject(wxCommandEvent& event);
+	void OnExample(wxCommandEvent& event);
+
+	void CreateSplitters();
+	void LoadProject(wxString& filename, wxString& path);
+	void UnLoadProject();
+
 	wxSplitterWindow  *leftsplitter;
-//	DrawWindow *dw;
 	PageViewer *dw;
 	wxStaticText *description;
 	ProjectTreeCtrl *projecttree;
+
+DECLARE_EVENT_TABLE()
 };
  
 class MainApp : public wxApp {
@@ -48,9 +55,9 @@ public:
 	virtual bool OnInit(void);
 };
 
-
 namespace ws {
-extern MainFrame * mainwin; 
+	extern MainFrame * mainwin; 
+	extern Project * curproj;
 };
 
 #endif // DEF_APP_H

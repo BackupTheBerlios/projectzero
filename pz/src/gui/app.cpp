@@ -17,12 +17,14 @@
 
 namespace ws {
   MainFrame * mainwin;  // global variable that holds pointer to mainframe
+  Project *curproj;
 }; 
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_MENU(ID_QUIT, MainFrame::OnQuit)
 	EVT_MENU(ID_ABOUT, MainFrame::OnAbout)
-	EVT_MENU(ID_TEST, MainFrame::OnTest)
+	EVT_MENU(ID_OPENPROJECT, MainFrame::OnOpenProject)
+	EVT_MENU(ID_CLOSEPROJECT, MainFrame::OnCloseProject)
 	EVT_MENU(ID_EXAMPLE, MainFrame::OnExample)
 END_EVENT_TABLE()
 
@@ -45,10 +47,11 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 	/*wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND)*/
 	SetBackgroundColour(wxColour(165, 165, 165));
 
-  ws::mainwin = this;
+	ws::mainwin = this;
 	wxMenu *file_menu = new wxMenu;
-	file_menu->Append(ID_TEST, _("&Run Test ..."));
-	file_menu->Append(ID_EXAMPLE, _("Open &Example"));
+	file_menu->Append(ID_OPENPROJECT, _("&Open Project ..."));
+	file_menu->Append(ID_EXAMPLE, _("Open &Test Project"));
+	file_menu->Append(ID_CLOSEPROJECT, _("&Close Project"));
 	file_menu->AppendSeparator();
 	file_menu->Append(ID_QUIT, _("&Quit"));
 	wxMenu *help_menu = new wxMenu;
@@ -59,7 +62,9 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 	menu_bar->Append(file_menu, _("&File"));
 	menu_bar->Append(help_menu, _("&Help"));
 	SetMenuBar(menu_bar);
+}
 
+void MainFrame::CreateSplitters() {
 	splitter = new wxSplitterWindow(this, -1, wxDefaultPosition, wxDefaultSize, /*wxSP_LIVE_UPDATE |*/ wxCLIP_CHILDREN | wxSP_3DSASH);
 
 	leftsplitter = new wxSplitterWindow(splitter, -1, wxDefaultPosition, wxDefaultSize, /*wxSP_LIVE_UPDATE |*/ wxCLIP_CHILDREN | wxSP_3DSASH);
@@ -71,15 +76,15 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 	dw->Redraw();*/
 	dw = new PageViewer(splitter, new Page());
 	dw->Refresh();
-  (ws::mainwin)->rightwin = dw;
+	(ws::mainwin)->rightwin = dw;
   
 	splitter->SplitVertically(leftsplitter, dw, 200);
 	splitter->SetMinimumPaneSize(50);
+
 }
 
-
 MainFrame::~MainFrame(void) {
-	//empty	
+	delete ws::curproj;
 }
 
 void MainFrame::ReplaceRight(wxWindow * newwin){
@@ -94,29 +99,51 @@ void MainFrame::OnQuit(wxCommandEvent& WXUNUSED(event)) {
 
 
 void MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
-	(void)wxMessageBox(_("Project Zero, 2003."), _("About"));
+	(void)wxMessageBox(_("Project Zero, 2003."), _("About"), wxOK, ws::mainwin);
 }
 
-void MainFrame::OnTest(wxCommandEvent& WXUNUSED(event)) {
-        Project proj;
+void MainFrame::LoadProject(wxString& filename, wxString& path) {
+	UnLoadProject();
+	ws::curproj = new Project();
+	ws::curproj->LoadXmlProjectFile(filename, path);
+	if(splitter==NULL) CreateSplitters();
+	projecttree->ReFill();
+}
+
+void MainFrame::UnLoadProject() {
+	// TODO: disable all functionality, expect for loading projects, etc .
+	// this solution will work, but isn't really how it should be, i think*
+	if(!(splitter==NULL)) { delete splitter; splitter = NULL; }
+	if(!(ws::curproj==NULL)) { delete ws::curproj; ws::curproj = NULL; }
+}
+
+void MainFrame::OnCloseProject(wxCommandEvent& WXUNUSED(event)) {
+	if(wxMessageBox( _("Do you really want to close the currently opened project?"), _("Warning"), wxYES_NO, ws::mainwin) == wxYES) {
+		UnLoadProject();
+	}
+}
+
+void MainFrame::OnOpenProject(wxCommandEvent& WXUNUSED(event)) {
+	if(ws::curproj!=NULL) {
+		if(wxMessageBox( _("Do you really want to close the currently opened project?"), _("Warning"), wxYES_NO, ws::mainwin) == wxYES) {
+			return;
+		}
+	}
 	wxFileDialog dialog (this, _("Open Project File"), _(""), _(""),
 	wxT("Xml Project Files (*.xml)|*.xml"));
 	dialog.SetDirectory(wxGetHomeDir());
-	if(dialog.ShowModal() == wxID_OK)
-	{
+	if(dialog.ShowModal() == wxID_OK) {
+		UnLoadProject();
 		wxString filename = dialog.GetPath();
 		wxString dir = dialog.GetDirectory();
-	  proj.LoadXmlProjectFile(filename, dir);
-		projecttree->Fill(proj);
+		LoadProject(filename, dir);
 	}
 }
 
 void MainFrame::OnExample(wxCommandEvent& WXUNUSED(event)) {
-        Project proj;
+	UnLoadProject();
 	wxString filename = wxT("../../examples/proj.xml");
 	wxString dir = wxT("../../examples/");
-	proj.LoadXmlProjectFile(filename, dir);
-	projecttree->Fill(proj);
+	LoadProject(filename, dir);
 }
-
 

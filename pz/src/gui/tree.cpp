@@ -17,21 +17,21 @@ BEGIN_EVENT_TABLE(ProjectTreeCtrl, wxTreeCtrl)
 END_EVENT_TABLE()
 
 ProjectTreeCtrl::ProjectTreeCtrl(wxWindow *parent) : wxTreeCtrl(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER/*|wxTR_HIDE_ROOT*/) {
-	SetIndent(GetIndent());
-	SetSpacing(GetSpacing());
+	SetIndent(GetIndent()/*-5*/);
+	SetSpacing(GetSpacing()/*-5*/);
 	CreateImageList();
 }
 
-void ProjectTreeCtrl::Fill(Project& project) {
+void ProjectTreeCtrl::ReFill() {
 	DeleteAllItems();
 	wxTreeItemId rootId = AddRoot(_("Project"));
 	SetItemImage(rootId, ICON_PROJECT, wxTreeItemIcon_Normal);
 	SetItemImage(rootId, ICON_PROJECT, wxTreeItemIcon_Selected);
 	SetItemImage(rootId, ICON_PROJECT, wxTreeItemIcon_Expanded);
 	SetItemImage(rootId, ICON_PROJECT, wxTreeItemIcon_SelectedExpanded);
-	for(size_t i =0;i<project.GetPageCount();i++)
+	for(size_t i =0;i<ws::curproj->GetPageCount();i++)
 	{
-		Page *page = project.GetPage(i);
+		Page *page = ws::curproj->GetPage(i);
 		wxString name = page->GetName();
 		wxTreeItemId id = AppendItem(rootId, name);
 		SetItemImage(id, ICON_PAGE, wxTreeItemIcon_Normal);
@@ -42,6 +42,7 @@ void ProjectTreeCtrl::Fill(Project& project) {
 	}
 
 	if(ItemHasChildren(rootId)) { Expand(rootId); }
+
 }
 
 void ProjectTreeCtrl::CreateImageList() {
