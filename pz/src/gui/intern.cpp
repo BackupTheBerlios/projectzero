@@ -117,7 +117,7 @@ int Page::SaveTemplate(void)
 {
   if(templatefile)
     {
-      xmlSaveFormatFile(templatefile, templates, 1);
+      xmlSaveFormatFile((const char*)templatefile.mb_str(), templates, 1);
       return true;
     }
   else
