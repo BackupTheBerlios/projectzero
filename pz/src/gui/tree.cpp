@@ -21,12 +21,18 @@ void ProjectTreeCtrl::Fill(Project& project) {
 	DeleteAllItems();
 	wxTreeItemId rootId = AddRoot(_("Project"));
 	SetItemImage(rootId, ICON_PROJECT, wxTreeItemIcon_Normal);
+	SetItemImage(rootId, ICON_PROJECT, wxTreeItemIcon_Selected);
+	SetItemImage(rootId, ICON_PROJECT, wxTreeItemIcon_Expanded);
+	SetItemImage(rootId, ICON_PROJECT, wxTreeItemIcon_SelectedExpanded);
 	for(size_t i =0;i<project.GetPageCount();i++)
 	{
 		Page *page = project.GetPage(i);
 		wxString name = page->GetName();
 		wxTreeItemId id = AppendItem(rootId, name);
 		SetItemImage(id, ICON_PAGE, wxTreeItemIcon_Normal);
+		SetItemImage(id, ICON_PAGE, wxTreeItemIcon_Selected);
+		SetItemImage(id, ICON_PAGE, wxTreeItemIcon_Expanded);
+		SetItemImage(id, ICON_PAGE, wxTreeItemIcon_SelectedExpanded);
 	}
 	// XXX + disappears because of this - why?
 	if(ItemHasChildren(rootId)) { Expand(rootId); }
