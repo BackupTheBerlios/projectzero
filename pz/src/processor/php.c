@@ -18,16 +18,18 @@ xmlBufferPtr execute_php(char *infile, char *argfile){
     
     outbuf = xmlBufferCreate();
 
-    commandlen = strlen("php -q -f "PHP_SCRIPTS_DIR"emulate.php ") + strlen(infile) + strlen(argfile) + 2;
+    commandlen = strlen("php -q -f "PHP_SCRIPTS_DIR"emulate.php ") + strlen(infile) + strlen(argfile) + 2; // 2 = 2 spaces
     command = (char*)malloc(sizeof(char)*commandlen);
     strcpy(command, "php -q -f "PHP_SCRIPTS_DIR"/emulate.php ");
     strcat(command, infile);
+    strcat(command, " ");
     strcat(command, argfile);
     if((ptr = popen(command, "r")) != NULL)
     {
 	while(fgets(buffer, BUFSIZE, ptr) != NULL)
 		{ 
 		    xmlBufferAdd(outbuf,(xmlChar *) buffer, strlen(buffer));
+		    printf("%s\n", buffer);
 		 }
 	pclose (ptr);
     }
