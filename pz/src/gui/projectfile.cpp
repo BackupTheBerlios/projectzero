@@ -49,7 +49,7 @@ int Project::LoadXmlProjectFile(wxString& filename) {
 			std::cout << "Parsing page ..." << std::endl;
 			ParseTopPages(doc, cur);
 		}
-		cur = cur->next;
+	cur = cur->next;
 	}
 	return 1;
 }
@@ -109,3 +109,4 @@ size_t Project::GetPageCount() {
 Page *Project::GetPage(size_t position) {
 	return pages.Item(position)->GetData();
 }
+

@@ -1,5 +1,5 @@
 /*
-	this file is part of the ProjectZero GUI
+	This file is part of the ProjectZero GUI
 	All rights reserved
 */
 
@@ -307,7 +307,7 @@ void DrawWindow::Redraw(){
 }
 
 DrawWindow::DrawWindow(wxWindow * parent) : wxScrolledWindow::wxScrolledWindow(parent, -1, wxDefaultPosition, wxDefaultSize,/* wxHSCROLL | wxVSCROLL*/0 , wxString::Format(wxT("Draw"))){
-	wxColour *bgcol = new wxColour(184, 179, 168);
+  wxColour *bgcol = new wxColour(184, 179, 168);
 	SetBackgroundColour(*bgcol);
 	Refresh();
 	m_drag_x = 0;
@@ -415,4 +415,5 @@ Line::~Line(void){
 		next->prev = prev;
 	}
 }
+
 
