@@ -35,17 +35,12 @@ if (count($myargs) < 3)
 	   . "type=\"EmulateError\"/>\n";
 	exit();
 }
-
-include($myargs[2]);
+include("../../phpscripts/" . $myargs[1]);
 
 // TODO parse options from /tmp/file here, and give them to the script
-
-switch($myargs[1])
-{
-	case "GetOutput":
-		GetOutput();
-		break;
-}
+echo "<output>\n";
+GetOutput();
+echo "</output>\n";
 
 ?>
 
