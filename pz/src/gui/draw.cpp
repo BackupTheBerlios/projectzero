@@ -318,7 +318,7 @@ DrawWindow::DrawWindow(wxWindow * parent) : wxScrolledWindow::wxScrolledWindow(p
 	draggingline = false;
 	gotsnap = false;
 	gotsourcesnap = false;
-	SetScrollbars(10, 10, 1000, 1000);
+	SetScrollbars(10, 10, 50, 50);
 	//EnableScrolling(true, true);
 	lines = new Line(wxPoint(0, 0), wxPoint(CANVAS_WIDTH, 0), (class Line *) NULL, NULL);
 	lines = new Line(wxPoint(0, 0), wxPoint(0, CANVAS_HEIGHT), (class Line *) NULL, lines);
