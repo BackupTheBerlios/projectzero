@@ -19,6 +19,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_MENU(ID_QUIT, MainFrame::OnQuit)
 	EVT_MENU(ID_ABOUT, MainFrame::OnAbout)
 	EVT_MENU(ID_TEST, MainFrame::OnTest)
+	EVT_MENU(ID_EXAMPLE, MainFrame::OnExample)
 END_EVENT_TABLE()
 
 IMPLEMENT_APP(MainApp)
@@ -40,6 +41,8 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 
 	wxMenu *file_menu = new wxMenu;
 	file_menu->Append(ID_TEST, _("&Run Test ..."));
+	file_menu->Append(ID_EXAMPLE, _("Open &Example"));
+	file_menu->AppendSeparator();
 	file_menu->Append(ID_QUIT, _("&Quit"));
 	wxMenu *help_menu = new wxMenu;
 	help_menu->Append(ID_ABOUT, _("&Help"));
@@ -94,3 +97,11 @@ void MainFrame::OnTest(wxCommandEvent& WXUNUSED(event)) {
 		projecttree->Fill(proj);
 	}
 }
+
+void MainFrame::OnExample(wxCommandEvent& WXUNUSED(event)) {
+        Project proj;
+	wxString filename = wxT("../../examples/proj.xml");
+	proj.LoadXmlProjectFile(filename);
+	projecttree->Fill(proj);
+}
+
