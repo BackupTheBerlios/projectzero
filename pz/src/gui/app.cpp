@@ -24,6 +24,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 END_EVENT_TABLE()
 
 IMPLEMENT_APP(MainApp)
+MainFrame *mainwin;  // global variable that holds pointer to mainframe
 
 bool MainApp::OnInit() {
 	// to remember that this should be calles once at program startup.

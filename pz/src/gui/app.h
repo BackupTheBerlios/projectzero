@@ -36,8 +36,8 @@ public:
 private:
 	wxSplitterWindow  *leftsplitter;
 //	DrawWindow *dw;
-  PageViewer *dw;
-  wxStaticText *description;
+	PageViewer *dw;
+	wxStaticText *description;
 	ProjectTreeCtrl *projecttree;
 };
  
@@ -47,7 +47,7 @@ public:
 	virtual bool OnInit(void);
 };
 
-MainFrame * mainwin;  // global variable that holds pointer to mainframe
+extern MainFrame *mainwin; // extern-declaration
 
 #endif // DEF_APP_H
 
