@@ -82,7 +82,7 @@ void Project::SetDescription(wxString& description) {
 
 int Project::AddPage(wxString& filename) {
 	Page *page = new Page();
-	wxString fullpath = projpath + file;
+	wxString fullpath = projpath + filename;
 	// XXX too buggy at the moment
 	/*if(*/page->LoadXmlPageFile(fullpath);/*)*/
 	/*{*/ pages.Append(page);/* }*/
