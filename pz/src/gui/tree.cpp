@@ -11,9 +11,9 @@
 #include "projectfile.h"
 #include "tree.h"
 
-ProjectTreeCtrl::ProjectTreeCtrl(wxWindow *parent) : wxTreeCtrl(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) {
-	SetIndent(GetIndent()-5);
-	SetSpacing(GetSpacing()-5);
+ProjectTreeCtrl::ProjectTreeCtrl(wxWindow *parent) : wxTreeCtrl(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTR_HIDE_ROOT) {
+	SetIndent(GetIndent());
+	SetSpacing(GetSpacing());
 	CreateImageList();
 }
 
@@ -34,7 +34,6 @@ void ProjectTreeCtrl::Fill(Project& project) {
 		SetItemImage(id, ICON_PAGE, wxTreeItemIcon_Expanded);
 		SetItemImage(id, ICON_PAGE, wxTreeItemIcon_SelectedExpanded);
 	}
-	// XXX + disappears because of this - why?
 	if(ItemHasChildren(rootId)) { Expand(rootId); }
 }
 
