@@ -47,6 +47,7 @@
 #include <wx/treectrl.h>
 #include <wx/listimpl.cpp>
 #include <wx/notebook.h>
+#include <wx/filename.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/debugXML.h>
 #include <libxml/HTMLtree.h>

@@ -11,11 +11,11 @@ public:
 	Project();
 	~Project();
 	// TODO: add enum for errors
-	int LoadXmlProjectFile(wxString& filename, wxString& path);
-	int SaveXmlProjectFile(wxString& filename);
+	int LoadXmlProjectFile(wxFileName& filename);
+	int SaveXmlProjectFile();
 	void SetName(wxString& name);
 	void SetDescription(wxString& filename);
-	int AddPage(wxString& filename);
+	int AddPage(wxString& filename, wxString& name);
 	size_t GetPageCount();
 	Page *GetPage(size_t position);
 private:
@@ -23,8 +23,7 @@ private:
 	PageList pages;
 	wxString projname;
 	wxString projdescription;
-	wxString projpath;
- 	xmlDocPtr doc;
- };
+	wxFileName projfile;
+};
 #endif // DEF_PROJECTFILE_H
 

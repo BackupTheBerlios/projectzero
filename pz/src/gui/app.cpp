@@ -25,6 +25,7 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_MENU(ID_ABOUT, MainFrame::OnAbout)
 	EVT_MENU(ID_OPENPROJECT, MainFrame::OnOpenProject)
 	EVT_MENU(ID_CLOSEPROJECT, MainFrame::OnCloseProject)
+	EVT_MENU(ID_SAVEPROJECT, MainFrame::OnSaveProject)
 	EVT_MENU(ID_EXAMPLE, MainFrame::OnExample)
 END_EVENT_TABLE()
 
@@ -47,17 +48,18 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 
 	ws::mainwin = this;
 	wxMenu *file_menu = new wxMenu;
-	file_menu->Append(ID_OPENPROJECT, _("&Open Project ..."));
-	file_menu->Append(ID_EXAMPLE, _("Open &Test Project"));
-	file_menu->Append(ID_CLOSEPROJECT, _("&Close Project"));
+	file_menu->Append(ID_OPENPROJECT, _("&Open ..."));
+	file_menu->Append(ID_EXAMPLE, _("Open &Test"));
+	file_menu->Append(ID_SAVEPROJECT, _("Save"));
+	file_menu->Append(ID_CLOSEPROJECT, _("&Close"));
 	file_menu->AppendSeparator();
 	file_menu->Append(ID_QUIT, _("&Quit"));
 	wxMenu *help_menu = new wxMenu;
-	help_menu->Append(ID_ABOUT, _("&Help"));
-	help_menu->AppendSeparator();
+	//help_menu->Append(ID_ABOUT, _("&Help"));
+	//help_menu->AppendSeparator();
 	help_menu->Append(ID_ABOUT, _("&About ..."));
 	wxMenuBar *menu_bar = new wxMenuBar;
-	menu_bar->Append(file_menu, _("&File"));
+	menu_bar->Append(file_menu, _("&Project"));
 	menu_bar->Append(help_menu, _("&Help"));
 	SetMenuBar(menu_bar);
 }
@@ -96,10 +98,10 @@ void MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 	(void)wxMessageBox(_("Project Zero, 2003."), _("About"), wxOK, ws::mainwin);
 }
 
-void MainFrame::LoadProject(wxString& filename, wxString& path) {
+void MainFrame::LoadProject(wxFileName& filename) {
 	UnLoadProject();
 	ws::curproj = new Project();
-	if(ws::curproj->LoadXmlProjectFile(filename, path)) {
+	if(ws::curproj->LoadXmlProjectFile(filename)) {
 		if(splitter==NULL) CreateSplitters();
 		projecttree->ReFill();
 		this->Refresh();
@@ -123,9 +125,15 @@ void MainFrame::ChangeCurrentPageName(wxString& newname) {
 }
 
 void MainFrame::OnCloseProject(wxCommandEvent& WXUNUSED(event)) {
-	if(wxMessageBox( _("Do you really want to close the currently opened project?"), _("Warning"), wxYES_NO, ws::mainwin) == wxYES) {
-		UnLoadProject();
+	if(ws::curproj!=NULL) {
+		//if(wxMessageBox( _("Do you really want to close the currently opened project?"), _("Warning"), wxYES_NO, ws::mainwin) == wxYES) {
+			UnLoadProject();
+		//}
 	}
+}
+
+void MainFrame::OnSaveProject(wxCommandEvent& WXUNUSED(event)) {
+	ws::curproj->SaveXmlProjectFile();
 }
 
 void MainFrame::OnOpenProject(wxCommandEvent& WXUNUSED(event)) {
@@ -139,16 +147,14 @@ void MainFrame::OnOpenProject(wxCommandEvent& WXUNUSED(event)) {
 	dialog.SetDirectory(wxGetHomeDir());
 	if(dialog.ShowModal() == wxID_OK) {
 		UnLoadProject();
-		wxString filename = dialog.GetPath();
-		wxString dir = dialog.GetDirectory();
-		LoadProject(filename, dir);
+		wxFileName filename(dialog.GetPath());
+		LoadProject(filename);
 	}
 }
 
 void MainFrame::OnExample(wxCommandEvent& WXUNUSED(event)) {
 	UnLoadProject();
-	wxString filename = wxT("../../examples/proj.xml");
-	wxString dir = wxT("../../examples/");
-	LoadProject(filename, dir);
+	wxFileName filename(wxT("../../examples/proj.xml"));
+	LoadProject(filename);
 }
 

@@ -10,9 +10,11 @@
 class Page
 {
 public:
-	Page();
+	Page(wxFileName& myfilename, wxString& myname);
 	~Page();
-	int LoadXmlPageFile(wxString& filename);
+	int LoadXmlPageFile();
+	int SaveXmlPageFile();
+	int UnloadXmlPageFile();
 	int SaveTemplate(void);
 	int LoadTemplate(xmlChar * filename);
 	void SetName(wxString& myname);
@@ -24,7 +26,7 @@ private:
 	int ProcessTemplate(xmlDocPtr doc, xmlNodePtr cur);
 	wxString name;
 	wxString description;
-	wxString file;
+	wxFileName file;
 	wxString layout;
 	xmlDocPtr doc;
 	xmlDocPtr templates;

@@ -19,21 +19,22 @@
 #include "intern.h"
 WX_DEFINE_LIST(PageList);
 
-Page::Page()
+Page::Page(wxFileName& myfilename, wxString& myname)
 {
-  name = _("No Name");
+  file = myfilename;
+  SetName(myname);
 };
 
 Page::~Page() {};
 
-int Page::LoadXmlPageFile(wxString& filename)
+int Page::LoadXmlPageFile()
 {
   xmlNodePtr cur;
   xmlChar * value;
-  doc = xmlParseFile((const char*)filename.mb_str());
+  doc = xmlParseFile((const char*)file.GetFullPath().mb_str());
   if(doc == NULL)
     {
-      std::cout << "Error parsing file " << (const char *)filename.mb_str() << std::endl;
+      std::cout << "Error parsing file " << (const char *)file.GetFullPath().mb_str() << std::endl;
       return 0;
     }
   cur = xmlDocGetRootElement(doc);
@@ -49,7 +50,6 @@ int Page::LoadXmlPageFile(wxString& filename)
         {
           value = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
           wxString temp((const char*)value, wxConvUTF8);
-	  temp.Trim(FALSE);temp.Trim(TRUE);temp.Truncate(100);
           SetName(temp);
           std::cout << "Added name ..." << std::endl;
           xmlFree(value);
@@ -58,7 +58,6 @@ int Page::LoadXmlPageFile(wxString& filename)
         {
           value = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
           wxString temp((const char*)value, wxConvUTF8);
-	  temp.Trim(FALSE);temp.Trim(TRUE);temp.Truncate(1024);
           SetDescription(temp);
           std::cout << "Added description ..." << std::endl;
           xmlFree(value);
@@ -97,6 +96,13 @@ int Page::LoadXmlPageFile(wxString& filename)
   return 1;
 };
 
+int Page::SaveXmlPageFile() {
+	xmlSaveFormatFile((const char*)file.GetFullPath().mb_str(),doc,1);
+}
+
+int Page::UnloadXmlPageFile() {
+	xmlFreeDoc(doc);
+}
 
 int Page::ProcessBlocks(xmlDocPtr doc, xmlNodePtr cur)
 {
@@ -188,8 +194,18 @@ int Page::LoadTemplate(xmlChar * filename)
   return true;
 }
 
-void Page::SetName(wxString& myname) { name = myname; };
-void Page::SetDescription(wxString& mydescription) { description = mydescription; };
+void Page::SetName(wxString& myname) {
+	myname.Trim(FALSE);myname.Trim(TRUE);myname.Truncate(100);
+	if(!myname.IsEmpty()) {
+	       	name = myname;
+	} else {
+		name = file.GetFullName();
+	}
+}
+void Page::SetDescription(wxString& mydescription) {
+	mydescription.Trim(FALSE);mydescription.Trim(TRUE);mydescription.Truncate(1024);
+	description = mydescription;
+}
 wxString *Page::GetName() { return &name; }
 wxString *Page::GetDescription() { return &description; }
 

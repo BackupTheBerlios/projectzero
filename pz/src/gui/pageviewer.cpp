@@ -26,6 +26,7 @@ END_EVENT_TABLE()
 
 PageViewer::PageViewer(wxWindow * parent, Page * apage) : wxNotebook::wxNotebook(parent, -1, wxDefaultPosition, wxDefaultSize, 0, wxT("tabCtrl")){
   mypage = apage;
+  mypage->LoadXmlPageFile();
   prop = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, wxT("panel"));
   layout = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, wxT("panel"));
   dd = new DrawData();
@@ -60,7 +61,9 @@ PageViewer::PageViewer(wxWindow * parent, Page * apage) : wxNotebook::wxNotebook
    
 }
 
-PageViewer::~PageViewer() {}
+PageViewer::~PageViewer() {
+	mypage->UnloadXmlPageFile();
+}
 
 void PageViewer::NameChange(wxCommandEvent& event){
 	wxString newname = event.GetString();

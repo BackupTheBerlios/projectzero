@@ -21,7 +21,8 @@ enum
 	ID_ABOUT,
 	ID_OPENPROJECT,
 	ID_CLOSEPROJECT,
-	ID_EXAMPLE,
+	ID_SAVEPROJECT,
+	ID_EXAMPLE
 };
 
 class MainFrame : public wxFrame {
@@ -36,10 +37,11 @@ private:
 	void OnAbout(wxCommandEvent& event);
 	void OnOpenProject(wxCommandEvent& event);
 	void OnCloseProject(wxCommandEvent& event);
+	void OnSaveProject(wxCommandEvent& event);
 	void OnExample(wxCommandEvent& event);
 
 	void CreateSplitters();
-	void LoadProject(wxString& filename, wxString& path);
+	void LoadProject(wxFileName& filename);
 	void UnLoadProject();
 
 	wxSplitterWindow  *leftsplitter;
