@@ -7,6 +7,8 @@
 #include "main.h"
 #include "php.h"
 
+#define PHP_SCRIPTS_DIR "../../phpscripts"
+
 xmlBufferPtr execute_php(char *infile, char *argfile){
     char *command; int commandlen;
     char buffer[BUFSIZE];
@@ -16,10 +18,10 @@ xmlBufferPtr execute_php(char *infile, char *argfile){
     
     outbuf = xmlBufferCreate();
 
-    commandlen = strlen("php -q ") + strlen(infile);
-    commandlen += (strlen(argfile) + 1); 
-    command = (char*)malloc(sizeof(char)*commandlen + 1);
-    sprintf(command, "php -q %s ", infile);
+    commandlen = strlen("php -q -f "PHP_SCRIPTS_DIR"emulate.php ") + strlen(infile) + strlen(argfile) + 2;
+    command = (char*)malloc(sizeof(char)*commandlen);
+    strcpy(command, "php -q -f "PHP_SCRIPTS_DIR"/emulate.php ");
+    strcat(command, infile);
     strcat(command, argfile);
     if((ptr = popen(command, "r")) != NULL)
     {
