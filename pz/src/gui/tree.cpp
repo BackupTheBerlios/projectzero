@@ -67,7 +67,7 @@ void ProjectTreeCtrl::Fill(Project& project) {
 
 	}
 
-	if(ItemHasChildren(rootId)) { Expand(rootId); }
+	//if(ItemHasChildren(rootId)) { Expand(rootId); }
 
 }
 
