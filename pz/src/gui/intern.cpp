@@ -35,10 +35,10 @@ int Page::LoadXmlPageFile(wxString& filename)
 
   xmlNodePtr cur;
   xmlChar * value;
-  doc = xmlParseFile((const char*)filename.c_str());
+  doc = xmlParseFile((const char*)filename.mb_str());
   if(doc == NULL)
     {
-      std::cout << "Error parsing file " << (const char *)filename.c_str() << std::endl;
+      std::cout << "Error parsing file " << (const char *)filename.mb_str() << std::endl;
       return 0;
     }
   cur = xmlDocGetRootElement(doc);
