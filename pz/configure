@@ -7919,7 +7919,7 @@ WX_CFLAGS="$CFLAGS `$WX_CONFIG --cflags`"
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/processor/Makefile src/testapp/Makefile src/gui/Makefile phpscripts/Makefile examples/Makefile img/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile src/processor/Makefile src/gui/Makefile src/testapp/Makefile phpscripts/Makefile examples/Makefile img/Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -8411,8 +8411,8 @@ do
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "src/processor/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/processor/Makefile" ;;
-  "src/testapp/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/testapp/Makefile" ;;
   "src/gui/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/gui/Makefile" ;;
+  "src/testapp/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/testapp/Makefile" ;;
   "phpscripts/Makefile" ) CONFIG_FILES="$CONFIG_FILES phpscripts/Makefile" ;;
   "examples/Makefile" ) CONFIG_FILES="$CONFIG_FILES examples/Makefile" ;;
   "img/Makefile" ) CONFIG_FILES="$CONFIG_FILES img/Makefile" ;;
