@@ -2,6 +2,8 @@
 <project>
 	<name>Testprojectje</name>
 	<description>Een testproject</description>
-
-	<page uri="./page1.xml" />
+	<page uri="./page1.xml" name="First Page"/>
+	<page uri="./page1.xml" name="Second Page"/>
+	<page uri="./page1.xml" name="Third Page"/>
+	<page uri="./page1.xml" name="Fourth Page"/>
 </project>

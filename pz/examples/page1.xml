@@ -2,7 +2,7 @@
 
 <page>
 	<name>My first page</name>
-	<description>Blaat</description>
+	<description>A description that is a little longer than the previous onde wich had only one word in total.</description>
 	
 	<layout uri="./layoutfile.xml"/>
 	<template uri="./template.xsl"/>
