@@ -13,27 +13,34 @@ class DrawWindow : public wxScrolledWindow {
 		int m_drag_x, m_drag_y, m_drop_x, m_drop_y, m_snap_x, m_snap_y;
 		bool OnInit();
 		void OnPaint(wxPaintEvent &);
-		void DrawWindow::OnLeftDown(wxMouseEvent& event);
-		void DrawWindow::OnLeftUp(wxMouseEvent& event);
-		void DrawWindow::OnMouseMotion(wxMouseEvent& event);
-		void DrawWindow::OnEraseBackground(wxEraseEvent& event);
-		int DrawWindow::LoadLines(xmlDocPtr doc);
-		void DrawWindow::StoreLines(xmlDocPtr doc);
-		DrawWindow(wxWindow * parent);
+		void OnLeftDown(wxMouseEvent& event);
+		void OnLeftUp(wxMouseEvent& event);
+		void OnMouseMotion(wxMouseEvent& event);
+		void OnEraseBackground(wxEraseEvent& event);
+    DrawWindow(wxWindow * parent, class DrawData * data);
 		void Redraw();
 		class Line * lines;
 	DECLARE_EVENT_TABLE()
 	protected:
-		void DrawWindow::DrawLine(wxDC& dc, int xa, int ya, int xb, int yb);
-		void DrawWindow::DrawCanvas(wxDC& dc);
-		void DrawWindow::DrawLines(wxDC& dc);	
-		void DrawWindow::DrawDragLines(wxDC& dc);
-		bool DrawWindow::IsInCanvas(int x, int y);
-		wxPoint DrawWindow::Dev2Canvas(int x, int y);
-		wxPoint DrawWindow::Canvas2Dev(int x, int y);
+		void DrawLine(wxDC& dc, int xa, int ya, int xb, int yb);
+		void DrawCanvas(wxDC& dc);
+		void DrawLines(wxDC& dc);	
+		void DrawDragLines(wxDC& dc);
+		bool IsInCanvas(int x, int y);
+		wxPoint Dev2Canvas(int x, int y);
+		wxPoint Canvas2Dev(int x, int y);
 		wxPoint * DrawWindow::FindSnap(wxPoint);
 		bool DrawWindow::CornerSnap(wxPoint a, wxPoint b);
 		bool draggingline; bool gotsnap; bool gotsourcesnap;
+};
+
+class DrawData {
+    public:
+          DrawData();
+          ~DrawData() {};
+      		int LoadLines(xmlDocPtr doc);
+      		void StoreLines(xmlDocPtr doc);
+          class Line * lines;
 };
 
 class Line {

@@ -65,16 +65,18 @@ void ProjectTreeCtrl::CreateImageList() {
 
 void ProjectTreeCtrl::SelChanged(wxTreeEvent& event){
   wxTreeItemId idd;
+  TreeBinding * bind;
   printf("Tree select changed\n");
-  if(mainwin->rightwin)
-    delete(mainwin->rightwin);
-  idd = (wxTreeItemId) event.GetItem();
-  switch( ((TreeBinding *) this->GetItemData(idd))->type){
+  if(!(idd = (wxTreeItemId) event.GetItem()))
+    return;
+  if(!(bind = (TreeBinding *) this->GetItemData(idd)))
+    return;
+  switch( bind->type){
     case PAGE:
-       mainwin->rightwin = new PageViewer(mainwin->splitter, (Page *) ((TreeBinding *) GetItemData(idd))->data);
+       ws::mainwin->ReplaceRight(new PageViewer(ws::mainwin->splitter, (Page *) bind->data));
        break;
     case PROJECT:
-       break;
+        break;
   }
  
 }

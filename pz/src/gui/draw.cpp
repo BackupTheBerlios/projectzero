@@ -306,7 +306,7 @@ void DrawWindow::Redraw(){
  	Refresh();
 }
 
-DrawWindow::DrawWindow(wxWindow * parent) : wxScrolledWindow::wxScrolledWindow(parent, -1, wxDefaultPosition, wxDefaultSize,/* wxHSCROLL | wxVSCROLL*/0 , wxString::Format(wxT("Draw"))){
+DrawWindow::DrawWindow(wxWindow * parent, DrawData * data) : wxScrolledWindow::wxScrolledWindow(parent, -1, wxDefaultPosition, wxDefaultSize,/* wxHSCROLL | wxVSCROLL*/0 , wxString::Format(wxT("Draw"))){
   wxColour *bgcol = new wxColour(184, 179, 168);
 	SetBackgroundColour(*bgcol);
 	Refresh();
@@ -319,19 +319,23 @@ DrawWindow::DrawWindow(wxWindow * parent) : wxScrolledWindow::wxScrolledWindow(p
 	gotsnap = false;
 	gotsourcesnap = false;
 	SetScrollbars(10, 10, 50, 50);
+	lines = data->lines;
 	//EnableScrolling(true, true);
+	
+	//wxSetCursor(*wxCROSS_CURSOR);
+}
+
+DrawData::DrawData(){
 	lines = new Line(wxPoint(0, 0), wxPoint(CANVAS_WIDTH, 0), (class Line *) NULL, NULL);
 	lines = new Line(wxPoint(0, 0), wxPoint(0, CANVAS_HEIGHT), (class Line *) NULL, lines);
   lines = new Line(wxPoint(0, CANVAS_HEIGHT), wxPoint(CANVAS_WIDTH, CANVAS_HEIGHT), (class Line *) NULL, lines);
   lines = new Line(wxPoint(CANVAS_WIDTH, 0), wxPoint(CANVAS_WIDTH, CANVAS_HEIGHT), (class Line *) NULL, lines);
-	//wxSetCursor(*wxCROSS_CURSOR);
 }
 
-int DrawWindow::LoadLines(xmlDocPtr doc){
+int DrawData::LoadLines(xmlDocPtr doc){
   xmlNodePtr root, cur;
   xmlChar * prop;
   int xa, xb, ya, yb;
-  Line * tmp;
   
   //remove old lines
   while(lines != NULL)
@@ -357,14 +361,15 @@ int DrawWindow::LoadLines(xmlDocPtr doc){
       xmlFree(prop);
       prop = xmlGetProp(cur, (xmlChar *) "yb");
       yb = atoi((char *) prop);
-      xmlFree(prop);                
+      xmlFree(prop);  
+      lines = new Line(wxPoint(xa, ya), wxPoint(xb, yb), (class Line *) NULL, lines);              
     }
     cur = cur->next;
   }
-
+  return 1;
 }
 
-void DrawWindow::StoreLines(xmlDocPtr doc){
+void DrawData::StoreLines(xmlDocPtr doc){
   xmlNodePtr root, newchild;
   char prop[10];
   Line * tmp;

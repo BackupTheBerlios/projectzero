@@ -30,6 +30,7 @@ public:
 	void OnAbout(wxCommandEvent& event);
 	void OnTest(wxCommandEvent& event);
 	void OnExample(wxCommandEvent& event);
+	void ReplaceRight(wxWindow * newwin);
 	wxSplitterWindow * splitter;
  	wxWindow * rightwin;
  	DECLARE_EVENT_TABLE()
@@ -47,7 +48,10 @@ public:
 	virtual bool OnInit(void);
 };
 
-extern MainFrame *mainwin; // extern-declaration
+
+namespace ws {
+extern MainFrame * mainwin; 
+};
 
 #endif // DEF_APP_H
 

@@ -15,6 +15,7 @@ class PageViewer : public wxNotebook {
     void PageViewer::DescChange(wxEvent& event);
     DECLARE_EVENT_TABLE()
   private:
+    DrawData * dd;
     wxPanel * prop;
     wxPanel * layout;
     wxPanel * templates;

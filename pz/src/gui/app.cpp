@@ -15,6 +15,9 @@
 #include "pageviewer.h"
 #include "app.h"
 
+namespace ws {
+  MainFrame * mainwin;  // global variable that holds pointer to mainframe
+}; 
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_MENU(ID_QUIT, MainFrame::OnQuit)
@@ -26,11 +29,12 @@ END_EVENT_TABLE()
 IMPLEMENT_APP(MainApp)
 MainFrame *mainwin;  // global variable that holds pointer to mainframe
 
+
 bool MainApp::OnInit() {
 	// to remember that this should be calles once at program startup.
 	//xmlInitParser();
-	mainwin = new MainFrame((wxFrame*)NULL, _("Project Zero"), wxPoint(1,1), wxSize(750, 600));
-	mainwin->Show(TRUE);
+	ws::mainwin = new MainFrame((wxFrame*)NULL, _("Project Zero"), wxPoint(1,1), wxSize(750, 600));
+	ws::mainwin->Show(TRUE);
 	SetTopWindow(frame);
 	return true;
 }
@@ -41,6 +45,7 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 	/*wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND)*/
 	SetBackgroundColour(wxColour(165, 165, 165));
 
+  ws::mainwin = this;
 	wxMenu *file_menu = new wxMenu;
 	file_menu->Append(ID_TEST, _("&Run Test ..."));
 	file_menu->Append(ID_EXAMPLE, _("Open &Example"));
@@ -66,7 +71,8 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 	dw->Redraw();*/
 	dw = new PageViewer(splitter, new Page());
 	dw->Refresh();
-
+  (ws::mainwin)->rightwin = dw;
+  
 	splitter->SplitVertically(leftsplitter, dw, 200);
 	splitter->SetMinimumPaneSize(50);
 }
@@ -74,6 +80,12 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 
 MainFrame::~MainFrame(void) {
 	//empty	
+}
+
+void MainFrame::ReplaceRight(wxWindow * newwin){
+  splitter->ReplaceWindow(rightwin, newwin);
+  delete rightwin;
+  rightwin = newwin;
 }
 
 void MainFrame::OnQuit(wxCommandEvent& WXUNUSED(event)) {

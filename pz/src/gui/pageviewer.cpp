@@ -27,7 +27,8 @@ PageViewer::PageViewer(wxWindow * parent, Page * apage) : wxNotebook::wxNotebook
   mypage = apage;
   prop = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, "panel");
   layout = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, "panel");
-  templates = new DrawWindow(this);
+  dd = new DrawData();
+  templates = new DrawWindow(this, dd );
   InsertPage(0, prop, wxT("Page"),  false, -1);
   InsertPage(1, layout, wxT("Layout"),  false, -1);
   InsertPage(2, templates, wxT("Template"),  false, -1);
