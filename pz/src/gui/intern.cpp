@@ -1,3 +1,19 @@
+/*
+	This file is part of the ProjectZero GUI
+	All rights reserved
+*/
+
+/* 
+ * What happens here?
+ *
+ * A Page object can open a xml page file, parse it, and store relevant information.
+ * It also keeps a xmlDoc in memory that contains the loaded page, this doesn't get modified until it's saved to disk
+ *
+ * A Page object should also parse templates and layouts and store xmlDoc's representing their contentµ
+ * It's also responsible for handling all file interaction with the page xml-file. No other object may access those files.
+ *
+ */
+
 #include "globals.h"
 #include "intern.h"
 #include <wx/listimpl.cpp>
