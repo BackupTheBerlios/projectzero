@@ -21,7 +21,7 @@
 
 
 
-ProjectTreeCtrl::ProjectTreeCtrl(wxWindow *parent) : wxTreeCtrl(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTR_HIDE_ROOT) {
+ProjectTreeCtrl::ProjectTreeCtrl(wxWindow *parent) : wxTreeCtrl(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER/*|wxTR_HIDE_ROOT*/) {
 
 	SetIndent(GetIndent());
 
@@ -67,7 +67,7 @@ void ProjectTreeCtrl::Fill(Project& project) {
 
 	}
 
-	//if(ItemHasChildren(rootId)) { Expand(rootId); }
+	if(ItemHasChildren(rootId)) { Expand(rootId); }
 
 }
 
