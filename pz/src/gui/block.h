@@ -8,6 +8,22 @@
 
 #define BLOCK_DIR "../../phpscripts/"
 
+class Argument {
+  public:
+    Argument(const wxString& myname, const wxString& myvalue);
+    ~Argument(){};
+    wxString name;
+    wxString value;
+};
+WX_DECLARE_LIST(Argument, VariableList);
+
+class DataInput {
+  public:
+    wxString name;
+    wxString description;
+    int type;
+};
+
 class Block {
   public:
     Block::Block(){};
@@ -17,23 +33,6 @@ class Block {
     wxString uri;
                
 };
+WX_DECLARE_LIST(Block, BlockList);
 
-class Argument {
-  public:
-    Argument(){};
-    ~Argument(){};
-    wxString name;
-    wxString value;
-};
-
-class DataInput {
-  public:
-    wxString name;
-    wxString description;
-    int type;
-};
-
-wxDECLARE_LIST(Argument, VariableList);
-wxDECLARE_LIST(Block, BlockList);
-wxDEFINE_LIST(Argument, VariableList);
 #endif /* DEF_BLOCK_H */
