@@ -6,7 +6,9 @@ projectzero_SOURCES = \
 	render.cpp render.h \
 	projectfile.cpp projectfile.h \
 	intern.cpp intern.h globals.h \
-	page.cpp page.h pageviewer.cpp pageviewer.h
+	page.cpp page.h \
+	pageviewer.cpp pageviewer.h \
+	blocks.cpp blocks.h
 
 LIBS = @XSLT_LIBS@ @XML_LIBS@ @WX_LIBS@
 CPPFLAGS = @XSLT_CFLAGS@ @XSLT_CFLAGS@ @WX_CFLAGS@
