@@ -11,12 +11,9 @@ Project::Project() {}
 Project::~Project() {
 	pages.DeleteContents(TRUE);
 	pages.Clear();
-	styles.DeleteContents(TRUE);
-	styles.Clear();
-	toppages.Clear();
 }
-int Project::LoadXmlProjectFile(wxString& filename) {
 
+int Project::LoadXmlProjectFile(wxString& filename) {
 	xmlNodePtr cur;
 	xmlChar * value;
 	doc = xmlParseFile((const char*)filename.mb_str());
@@ -47,7 +44,7 @@ int Project::LoadXmlProjectFile(wxString& filename) {
 		}
 		else if(!xmlStrcmp(cur->name,(const xmlChar *)"page")) {
 			std::cout << "Parsing page ..." << std::endl;
-			ParseTopPages(doc, cur);
+			ParsePage(cur);
 		}
 	cur = cur->next;
 	}
@@ -56,58 +53,38 @@ int Project::LoadXmlProjectFile(wxString& filename) {
 
 int Project::SaveXmlProjectFile(wxString& filename) {
     xmlNodePtr cur, childcur; 
-    
     xmlFreeDoc(doc);
     doc = xmlNewDoc((xmlChar *) "1.0");
     cur = xmlNewNode(NULL, (xmlChar *) "project");
     xmlDocSetRootElement(doc, cur);
-    
-    
     return 0;
 }
 
 
-void Project::ParseTopPages(xmlDocPtr doc, xmlNodePtr cur)
+void Project::ParsePage(xmlNodePtr cur)
 {
 	xmlChar *prop;
-	if ((prop = xmlGetProp(cur, (const xmlChar*)"id")) != NULL) {
-		unsigned long myid;
+	if ((prop = xmlGetProp(cur, (const xmlChar*)"uri")) != NULL) {
 		wxString temp((const char*)prop, wxConvUTF8);
-		if(temp.ToULong(&myid)) { AddTopPage(myid); }
-		std::cout << "Added toppage ..." << std::endl;
 		xmlFree(prop);
-		prop = xmlGetProp(cur, (const xmlChar*)"uri");
-		wxString tempp((const char*) prop, wxConvUTF8);
-		AddPage(tempp);
+		AddPage(temp);
 	}
-	cur = cur->next;
 }
 
 void Project::SetName(wxString& name) {
-	// strip (trim) this string?
-	projname = name.Truncate(100);
+	projname = name;
 }
 
 void Project::SetDescription(wxString& description) {
-	// strip (trim) this string?
-	projdescription = description.Truncate(1000);
+	projdescription = description;
 }
 
 int Project::AddPage(wxString& filename) {
 	Page *page = new Page();
-	if(page->LoadXmlPageFile(filename))
-	{
-		pages.Append(page);
-	}
-	else
-	{
-		delete page;
-	}
-}
-
-void Project::AddTopPage(unsigned long id) {
-	// check if exists?
-	toppages.Add(id);
+	// XXX too buggy at the moment
+	/*if(*/page->LoadXmlPageFile(filename);/*)*/
+	/*{*/ pages.Append(page);/* }*/
+	//else { delete page; }
 }
 
 size_t Project::GetPageCount() {
