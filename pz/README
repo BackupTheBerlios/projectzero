@@ -1,18 +1,3 @@
-Builden:
----------
-
-- linux:
-  Vooraleer je kan builden, moet je zorgen dat zowel wxWindows 2.4 als
-  libxml 2 en libxslt aanwezig zijn op je systeem.
-	./configure
-	make
-	make install (nog niet getest!)
-
-- windows:
-  Om te compilen heb je het volgende nodig: mingw (zit ook bij Dev-C++),
-  wxwindows, binaries van libxml en libxslt.
-	make -f Makefile.win
-
 Enkele instructies voor het gebruik van dit am/ac project:
 -----------------------------------------------------------
 
@@ -40,14 +25,20 @@ Enkele instructies voor het gebruik van dit am/ac project:
 Compabiliteit
 -------------
 
-- Om litteral strings of string van type char* door te geven als een wxString,
+- Om litteral strings door te geven als een wxString,
   macro wxT(x) gebruiken, voor unicode compabiliteit
-	(vben.) char *cstring = "iets";
-	        wxString wxstring = wxT(cstring);
-		wxstring.Append(wxT(cstring));
+	(vb.) wxString wxstring = wxT("string");
+
+- Strings converten van xmlChar naar wxString doe je zo:
+	(vb.) xmlChar *xml = (xmlChar*)"test";
+	      wxString wxstring((const char*)xml, wxConvUTF8);
+	      of wxString wxstring2 = wxString((const char*)xml, wxConvUTF8);
 
 - Om litteral strings door te geven die vertaald kunnen worden de macro _(x)
   gebruiken. (vb.) wxString titel = _("Title");
 
+- wxString converten naar char*, doe je niet met c_str(), maar met mb_str()!
+
 - wat doen we met xpm's/icons? mss toch best enkel xpm's gebruiken, anders
   moeten we resource files gebruiken voor windows.
+
