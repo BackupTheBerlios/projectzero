@@ -62,6 +62,8 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 	menu_bar->Append(file_menu, _("&Project"));
 	menu_bar->Append(help_menu, _("&Help"));
 	SetMenuBar(menu_bar);
+	// call this to make sure everything is cleared
+	UnLoadProject();
 }
 
 void MainFrame::CreateSplitters() {
@@ -102,6 +104,8 @@ void MainFrame::LoadProject(wxFileName& filename) {
 	UnLoadProject();
 	ws::curproj = new Project();
 	if(ws::curproj->LoadXmlProjectFile(filename)) {
+		GetMenuBar()->FindItem(ID_SAVEPROJECT)->Enable(TRUE);
+		GetMenuBar()->FindItem(ID_CLOSEPROJECT)->Enable(TRUE);
 		if(splitter==NULL) CreateSplitters();
 		projecttree->ReFill();
 		this->Refresh();
@@ -115,6 +119,8 @@ void MainFrame::UnLoadProject() {
 	// this solution will work, but isn't really how it should be, i think*
 	if(!(splitter==NULL)) { delete splitter; splitter = NULL; }
 	if(!(ws::curproj==NULL)) { delete ws::curproj; ws::curproj = NULL; }
+	GetMenuBar()->FindItem(ID_SAVEPROJECT)->Enable(FALSE);
+	GetMenuBar()->FindItem(ID_CLOSEPROJECT)->Enable(FALSE);
 }
 
 // XXX this is not the way it is supposed to be; we will probably need to rethink
@@ -133,7 +139,9 @@ void MainFrame::OnCloseProject(wxCommandEvent& WXUNUSED(event)) {
 }
 
 void MainFrame::OnSaveProject(wxCommandEvent& WXUNUSED(event)) {
-	ws::curproj->SaveXmlProjectFile();
+	if(ws::curproj!=NULL) {
+		ws::curproj->SaveXmlProjectFile();
+	}
 }
 
 void MainFrame::OnOpenProject(wxCommandEvent& WXUNUSED(event)) {
