@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 
 <page>
-	<name>My first page</page>
+	<name>My first page</name>
 	<description>Blaat</description>
 	
-	<layout uri="./layoutfile.xml">
-	<template uri="./template.xsl">
+	<layout uri="./layoutfile.xml"/>
+	<template uri="./template.xsl"/>
 	<blocks>
 		<block id="1">
 			<group>
