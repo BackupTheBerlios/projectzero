@@ -86,14 +86,14 @@ void MainFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 
 void MainFrame::OnTest(wxCommandEvent& WXUNUSED(event)) {
         Project proj;
-	wxString filename;
 	wxFileDialog dialog (this, _("Open Project File"), _(""), _(""),
 	wxT("Xml Project Files (*.xml)|*.xml"));
 	dialog.SetDirectory(wxGetHomeDir());
 	if(dialog.ShowModal() == wxID_OK)
 	{
-		filename = dialog.GetPath();
-		proj.LoadXmlProjectFile(filename);
+		wxString filename = dialog.GetPath();
+		wxString dir = dialog.GetDirectory();
+		proj.LoadXmlProjectFile(filename, dir);
 		projecttree->Fill(proj);
 	}
 }
@@ -101,7 +101,8 @@ void MainFrame::OnTest(wxCommandEvent& WXUNUSED(event)) {
 void MainFrame::OnExample(wxCommandEvent& WXUNUSED(event)) {
         Project proj;
 	wxString filename = wxT("../../examples/proj.xml");
-	proj.LoadXmlProjectFile(filename);
+	wxString dir = wxT("../../examples/");
+	proj.LoadXmlProjectFile(filename, dir);
 	projecttree->Fill(proj);
 }
 
