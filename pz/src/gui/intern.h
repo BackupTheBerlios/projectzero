@@ -74,7 +74,6 @@ private:
 	unsigned long id;
 
 	unsigned long styleid;
-	PageElementList elements;
 	wxString layout;
 	xmlDocPtr doc;
 	xmlDocPtr templates;

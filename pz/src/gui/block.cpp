@@ -33,7 +33,9 @@ int Block::Load(xmlNodePtr myblock){
    
    cur = xmlDocGetRootElement(blockdoc);
    /* process block info file here */
-   
+   if(xmlStrcmp(cur->name, (xmlChar *) "blockinfo")){
+      // bad block info
+   }
    
    
    /* process block data from page file here */

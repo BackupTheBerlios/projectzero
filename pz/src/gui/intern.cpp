@@ -19,7 +19,6 @@
 #include "intern.h"
 WX_DEFINE_LIST(PageList);
 WX_DEFINE_LIST(StyleSheetList);
-WX_DEFINE_LIST(PageElementList);
 
 
 Page::Page()

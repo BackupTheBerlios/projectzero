@@ -10,7 +10,7 @@
 class PageViewer : public wxNotebook {
   public:
     PageViewer(wxWindow * parent, Page * apage);
-    ~PageViewer(){};
+    ~PageViewer();
     void PageViewer::NameChange(wxEvent& event);
     void PageViewer::DescChange(wxEvent& event);
     DECLARE_EVENT_TABLE()

@@ -9,7 +9,7 @@
 #include "projectfile.h"
 #include "draw.h"
 #include "tree.h"
-#include <wx/notebook.h>
+
 #include <wx/stattext.h>
 #include <wx/valtext.h>
 #include "pageviewer.h"
@@ -88,6 +88,10 @@ PageViewer::PageViewer(wxWindow * parent, Page * apage) : wxNotebook::wxNotebook
   FindWindow(ID_DESCRIPTION)->SetValidator(wxTextValidator(wxFILTER_ASCII, &(mypage->descriptions)));
    
   
+}
+
+PageViewer::~PageViewer(){
+
 }
 
 void PageViewer::NameChange(wxEvent& event){

@@ -28,8 +28,8 @@ IMPLEMENT_APP(MainApp)
 bool MainApp::OnInit() {
 	// to remember that this should be calles once at program startup.
 	//xmlInitParser();
-	frame = new MainFrame((wxFrame*)NULL, _("Project Zero"), wxPoint(1,1), wxSize(750, 600));
-	frame->Show(TRUE);
+	mainwin = new MainFrame((wxFrame*)NULL, _("Project Zero"), wxPoint(1,1), wxSize(750, 600));
+	mainwin->Show(TRUE);
 	SetTopWindow(frame);
 	return true;
 }
@@ -69,7 +69,6 @@ MainFrame::MainFrame(wxFrame *frame, wxString title,  const wxPoint& pos, const 
 	splitter->SplitVertically(leftsplitter, dw, 200);
 	splitter->SetMinimumPaneSize(50);
 }
-
 
 
 MainFrame::~MainFrame(void) {

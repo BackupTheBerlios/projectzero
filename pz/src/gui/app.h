@@ -6,8 +6,13 @@
 #ifndef DEF_APP_H
 #define DEF_APP_H
 
-#include "tree.h"
+#include "block.h"
+#include "intern.h"
+#include "projectfile.h"
 #include "draw.h"
+#include "tree.h"
+#include "pageviewer.h"
+
 
 enum
 {
@@ -25,9 +30,11 @@ public:
 	void OnAbout(wxCommandEvent& event);
 	void OnTest(wxCommandEvent& event);
 	void OnExample(wxCommandEvent& event);
-	DECLARE_EVENT_TABLE()
+	wxSplitterWindow * splitter;
+ 	wxWindow * rightwin;
+ 	DECLARE_EVENT_TABLE()
 private:
-	wxSplitterWindow *splitter, *leftsplitter;
+	wxSplitterWindow  *leftsplitter;
 //	DrawWindow *dw;
   PageViewer *dw;
   wxStaticText *description;
@@ -39,6 +46,8 @@ public:
 	MainFrame *frame;
 	virtual bool OnInit(void);
 };
+
+MainFrame * mainwin;  // global variable that holds pointer to mainframe
 
 #endif // DEF_APP_H
 
