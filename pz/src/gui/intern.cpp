@@ -126,7 +126,8 @@ int Page::SaveTemplate(void)
 
 int Page::LoadTemplate(xmlChar * filename)
 {
-  xmlNodePtr cur;
+  xmlNodePtr cur, newnode;
+  bool setit = false;
   //they want us to load another template !!!
   // first check if we've allready loaded one
   if(templatefile)
@@ -152,10 +153,17 @@ int Page::LoadTemplate(xmlChar * filename)
       if(!xmlStrcmp(cur->name, (const xmlChar *)"template"))
         {
           xmlSetProp(cur, (xmlChar *) "uri", filename);
+          setit = true;
           break;
         }
       cur = cur->next;
     }
+  if(!setit){
+    // seems there was no <template>, make a new one
+    cur = xmlDocGetRootElement(doc);
+    newnode = xmlNewNode(NULL, (xmlChar *) "template");
+    xmlAddChild(cur, newnode);
+  }
   return true;
 }
 

@@ -55,6 +55,14 @@ int Project::LoadXmlProjectFile(wxString& filename) {
 }
 
 int Project::SaveXmlProjectFile(wxString& filename) {
+    xmlNodePtr cur, childcur; 
+    
+    xmlFreeDoc(doc);
+    doc = xmlNewDoc((xmlChar *) "1.0");
+    cur = xmlNewNode(NULL, (xmlChar *) "project");
+    xmlDocSetRootElement(doc, cur);
+    
+    
     return 0;
 }
 

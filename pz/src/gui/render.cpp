@@ -130,7 +130,8 @@ void Render::processLine(int xa, int ya, int xb, int yb, int prev)
         {
           for(j = i+1; j<colcnt; j++)
             {
-              if(xposses[i] == xposses[j])
+
+             if(xposses[i] == xposses[j])
                 {
                   if(j == (colcnt-1))
                     {
@@ -167,7 +168,8 @@ void Render::processLine(int xa, int ya, int xb, int yb, int prev)
                     lowest = j;
                 }
               tmp = xposses[i];
-              xposses[i] = xposses[lowest];
+
+             xposses[i] = xposses[lowest];
               xposses[lowest]= tmp;
             }
           // enter row loop, process each row
@@ -200,6 +202,7 @@ void Render::doWrite(char * text)
 {
   xmlBufferAdd(out, (const xmlChar *) text, strlen(text));
 }
+
 
 
 

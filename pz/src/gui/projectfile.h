@@ -31,3 +31,4 @@ private:
  	xmlDocPtr doc;
  };
 #endif // DEF_PROJECTFILE_H
+

@@ -123,14 +123,15 @@ public:
 	wxString GetName();
 	int SaveTemplate(void);
 	int LoadTemplate(xmlChar * filename);
-
+	wxString name;
+	wxString descriptions;
 private:
   int ProcessBlocks(xmlDocPtr doc, xmlNodePtr cur);
   int ProcessTemplate(xmlDocPtr doc, xmlNodePtr cur);
-	wxString name;
+
 	wxString file;
 	unsigned long id;
-	wxString descriptions;
+
 	unsigned long styleid;
 	PageElementList elements;
 	wxString layout;
