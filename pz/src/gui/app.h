@@ -13,7 +13,8 @@ enum
 {
 	ID_QUIT,
 	ID_ABOUT,
-	ID_TEST
+	ID_TEST,
+	ID_EXAMPLE
 };
 
 class MainFrame : public wxFrame {
@@ -23,6 +24,7 @@ public:
 	void OnQuit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	void OnTest(wxCommandEvent& event);
+	void OnExample(wxCommandEvent& event);
 	DECLARE_EVENT_TABLE()
 private:
 	wxSplitterWindow *splitter, *leftsplitter;
